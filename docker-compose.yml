@@ -32,7 +32,7 @@ services:
 
 
   pac2200-monitoring:
-    build: .
+    build: ./app
     container_name: pac2200-monitoring
     depends_on:
       - influxdb

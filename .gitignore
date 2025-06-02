@@ -1,1 +1,20 @@
+# Mac-Systemdateien
+.DS_Store
+
+# Umgebungsdateien
 .env
+
+# Influx
+influxdb-config/
+influxdb/
+
+# Kompletten grafana-Ordner ignorieren
+grafana/
+
+# Ausnahmen — Dashboards sollen tracked werden:
+!grafana/provisioning/
+!grafana/provisioning/dashboards/
+!grafana/provisioning/dashboards/*.json
+!grafana/provisioning/dashboards/*.yaml
+
+# Andere Unterordner in grafana sollen weiter ignoriert bleiben
