@@ -16,5 +16,6 @@ grafana/
 !grafana/provisioning/dashboards/
 !grafana/provisioning/dashboards/*.json
 !grafana/provisioning/dashboards/*.yaml
+!grafana/provisioning/datasources/influxdb.yaml
 
 # Andere Unterordner in grafana sollen weiter ignoriert bleiben
