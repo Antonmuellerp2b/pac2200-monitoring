@@ -5,11 +5,11 @@ datasources:
     type: influxdb
     access: proxy
     isDefault: true
-    url: 
+    url: ${INFLUXDB_URL}
     jsonData:
       version: Flux
-      organization: my-org
-      defaultBucket: pac2200
+      organization: ${INFLUXDB_ORG}
+      defaultBucket: ${INFLUXDB_BUCKET}
       tlsSkipVerify: true
     secureJsonData:
-      token: my-token
+      token: ${INFLUXDB_TOKEN}

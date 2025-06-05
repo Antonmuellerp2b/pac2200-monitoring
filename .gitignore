@@ -10,6 +10,7 @@ influxdb/
 
 # Kompletten grafana-Ordner ignorieren
 grafana/
+grafana/provisioning/dashboards/datasources
 
 # Ausnahmen — Dashboards sollen tracked werden:
 !grafana/provisioning/
