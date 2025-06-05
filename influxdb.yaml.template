@@ -5,7 +5,7 @@ datasources:
     type: influxdb
     access: proxy
     isDefault: true
-    url: ${INFLUXDB_URL}
+    url: ${INFLUX_URL}
     jsonData:
       version: Flux
       organization: ${INFLUXDB_ORG}

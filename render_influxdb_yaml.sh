@@ -14,4 +14,5 @@ fi
 
 # Render the template to influxdb.yaml
 cd "$(dirname "$0")"
+mkdir -p ./grafana/provisioning/datasources
 envsubst < influxdb.yaml.template > ./grafana/provisioning/datasources/influxdb.yaml
