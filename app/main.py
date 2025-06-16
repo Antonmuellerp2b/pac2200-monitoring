@@ -28,7 +28,8 @@ ENDPOINTS = {
     "INST": {"url": f"{base_url}INST", "interval": 5},
     "AVG1": {"url": f"{base_url}AVG1", "interval": 10},
     "AVG2": {"url": f"{base_url}AVG2", "interval": 900},
-    "COUNTER": {"url": f"{base_url}COUNTER", "interval": 5}
+    "COUNTER": {"url": f"{base_url}COUNTER", "interval": 5},
+    "EXTREME": {"url": f"{base_url}EXTREME", "interval": 900}
 }
 
 FIELDS = [

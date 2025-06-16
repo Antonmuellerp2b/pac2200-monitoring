@@ -3485,7 +3485,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "Europe/Berlin",
   "title": "PAC2200",
   "uid": "1c5e0df7-e965-43b4-8786-bcf478d248c8",
   "version": 8
