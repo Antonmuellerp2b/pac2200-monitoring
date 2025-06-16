@@ -2,6 +2,7 @@ services:
   influxdb:
     image: influxdb:2.7
     container_name: influxdb
+    restart: always
     ports:
       - "${INFLUXDB_PORT}:8086"
     volumes:
@@ -18,6 +19,7 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    restart: always
     ports:
       - "${GRAFANA_PORT}:3000"
     depends_on:
@@ -32,6 +34,7 @@ services:
   pac2200-monitoring:
     build: ./app
     container_name: pac2200-monitoring
+    restart: always
     depends_on:
       - influxdb
     environment:
