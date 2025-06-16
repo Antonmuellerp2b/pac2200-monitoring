@@ -73,13 +73,14 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "watth"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 0
       },
@@ -104,7 +105,94 @@
           "refId": "A"
         }
       ],
-      "title": "Active Power (inst)",
+      "title": "Active Energy (inst)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "watth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 38,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200-monitoring\" and\n    r.source == \"COUNTER\" and\n    contains(value: r._field, set: [\n      \"ACT_ENERGY_IMPORT_T1_TOTAL\"\n\n    ])\n  )\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Energy Sum (inst)",
       "type": "timeseries"
     },
     {
@@ -165,9 +253,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "id": 20,
       "options": {
@@ -190,7 +278,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power Factor (inst sum)",
+      "title": "Power Factor Sum (inst)",
       "type": "timeseries"
     },
     {
@@ -251,9 +339,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 16
+        "y": 24
       },
       "id": 36,
       "options": {
@@ -276,7 +364,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power Factor (10s average sum)",
+      "title": "Power Factor Sum (10s average)",
       "type": "timeseries"
     },
     {
@@ -293,9 +381,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.1,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 1,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -304,8 +392,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -337,9 +432,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 24
+        "y": 32
       },
       "id": 35,
       "options": {
@@ -362,7 +457,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power Factor (900s average sum)",
+      "title": "Power Factor Sum (900s average)",
       "type": "timeseries"
     },
     {
@@ -423,9 +518,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 32
+        "y": 40
       },
       "id": 19,
       "options": {
@@ -509,9 +604,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 40
+        "y": 48
       },
       "id": 34,
       "options": {
@@ -551,7 +646,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.3,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -562,8 +657,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -595,9 +697,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 48
+        "y": 56
       },
       "id": 33,
       "options": {
@@ -675,15 +777,41 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "VARQ1_SUM INST"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 56
+        "y": 64
       },
       "id": 18,
       "options": {
@@ -706,7 +834,7 @@
           "refId": "A"
         }
       ],
-      "title": "Reactive Power (inst sum)",
+      "title": "Reactive Power Sum (inst)",
       "type": "timeseries"
     },
     {
@@ -761,15 +889,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 64
+        "y": 72
       },
       "id": 32,
       "options": {
@@ -792,7 +921,7 @@
           "refId": "A"
         }
       ],
-      "title": "Reactive Power (10s average sum)",
+      "title": "Reactive Power Sum (10s average)",
       "type": "timeseries"
     },
     {
@@ -809,7 +938,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.1,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -820,8 +949,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -847,15 +983,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 72
+        "y": 80
       },
       "id": 31,
       "options": {
@@ -878,7 +1015,7 @@
           "refId": "A"
         }
       ],
-      "title": "Reactive Power (900s average sum)",
+      "title": "Reactive Power Sum (900s average)",
       "type": "timeseries"
     },
     {
@@ -933,15 +1070,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 80
+        "y": 88
       },
       "id": 17,
       "options": {
@@ -1019,15 +1157,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 88
+        "y": 96
       },
       "id": 30,
       "options": {
@@ -1067,7 +1206,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.3,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1078,8 +1217,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -1105,15 +1251,32 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltampreact"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VARQ1_L1 AVG2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 96
+        "y": 104
       },
       "id": 29,
       "options": {
@@ -1191,15 +1354,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 104
+        "y": 112
       },
       "id": 16,
       "options": {
@@ -1222,7 +1386,7 @@
           "refId": "A"
         }
       ],
-      "title": "Apparent Power (inst sum)",
+      "title": "Apparent Power Sum (inst)",
       "type": "timeseries"
     },
     {
@@ -1277,15 +1441,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 112
+        "y": 120
       },
       "id": 27,
       "options": {
@@ -1308,7 +1473,7 @@
           "refId": "A"
         }
       ],
-      "title": "Apparent Power (10s average sum)",
+      "title": "Apparent Power Sum (10s average)",
       "type": "timeseries"
     },
     {
@@ -1325,9 +1490,9 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.1,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 1,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -1336,8 +1501,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -1363,15 +1535,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 120
+        "y": 128
       },
       "id": 28,
       "options": {
@@ -1394,7 +1567,7 @@
           "refId": "A"
         }
       ],
-      "title": "Apparent Power (900s average sum)",
+      "title": "Apparent Power Sum (900s average)",
       "type": "timeseries"
     },
     {
@@ -1449,15 +1622,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 128
+        "y": 136
       },
       "id": 15,
       "options": {
@@ -1535,15 +1709,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 136
+        "y": 144
       },
       "id": 26,
       "options": {
@@ -1593,9 +1768,16 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "stepAfter",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -1621,15 +1803,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kvoltamp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 144
+        "y": 152
       },
       "id": 25,
       "options": {
@@ -1707,15 +1890,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "rothz"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 152
+        "y": 160
       },
       "id": 14,
       "options": {
@@ -1793,15 +1977,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "rothz"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 160
+        "y": 168
       },
       "id": 23,
       "options": {
@@ -1841,7 +2026,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "barWidthFactor": 0.6,
+            "barWidthFactor": 0.1,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1852,8 +2037,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 9,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -1867,6 +2059,7 @@
               "mode": "off"
             }
           },
+          "decimals": 2,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -1879,15 +2072,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "rothz"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 168
+        "y": 176
       },
       "id": 24,
       "options": {
@@ -1965,15 +2159,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 176
+        "y": 184
       },
       "id": 13,
       "options": {
@@ -2051,15 +2246,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 184
+        "y": 192
       },
       "id": 21,
       "options": {
@@ -2110,8 +2306,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -2126,6 +2329,7 @@
             }
           },
           "mappings": [],
+          "noValue": "-",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -2137,15 +2341,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 192
+        "y": 200
       },
       "id": 22,
       "options": {
@@ -2223,15 +2428,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 200
+        "y": 208
       },
       "id": 4,
       "options": {
@@ -2254,7 +2460,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (inst sum)",
+      "title": "Active Power Sum (inst)",
       "type": "timeseries"
     },
     {
@@ -2309,15 +2515,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 208
+        "y": 216
       },
       "id": 8,
       "options": {
@@ -2340,7 +2547,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (10s average sum)",
+      "title": "Active Power Sum (10s average)",
       "type": "timeseries"
     },
     {
@@ -2368,8 +2575,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -2395,15 +2609,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 9,
+        "w": 24,
         "x": 0,
-        "y": 216
+        "y": 224
       },
       "id": 9,
       "options": {
@@ -2426,7 +2641,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (900s average sum)",
+      "title": "Active Power Sum (900s average)",
       "type": "timeseries"
     },
     {
@@ -2481,15 +2696,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 224
+        "y": 233
       },
       "id": 3,
       "options": {
@@ -2512,7 +2728,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (inst)",
+      "title": "Active Power (inst)",
       "type": "timeseries"
     },
     {
@@ -2567,15 +2783,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 232
+        "y": 241
       },
       "id": 7,
       "options": {
@@ -2598,7 +2815,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (10s average)",
+      "title": "Active Power (10s average)",
       "type": "timeseries"
     },
     {
@@ -2626,8 +2843,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 11,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -2653,15 +2877,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "kwatt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 240
+        "y": 249
       },
       "id": 10,
       "options": {
@@ -2684,7 +2909,7 @@
           "refId": "A"
         }
       ],
-      "title": "Power (900s average)",
+      "title": "Active Power (900s average)",
       "type": "timeseries"
     },
     {
@@ -2739,15 +2964,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 248
+        "y": 257
       },
       "id": 1,
       "options": {
@@ -2829,15 +3055,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 256
+        "y": 265
       },
       "id": 6,
       "options": {
@@ -2892,8 +3119,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -2919,15 +3153,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "volt"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 264
+        "y": 273
       },
       "id": 11,
       "options": {
@@ -3009,15 +3244,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 272
+        "y": 281
       },
       "id": 2,
       "options": {
@@ -3044,7 +3280,7 @@
           "refId": "A"
         }
       ],
-      "title": "Amperage (inst)",
+      "title": "Current (inst)",
       "type": "timeseries"
     },
     {
@@ -3099,15 +3335,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 280
+        "y": 289
       },
       "id": 5,
       "options": {
@@ -3134,7 +3371,7 @@
           "refId": "A"
         }
       ],
-      "title": "Amperage (10s average)",
+      "title": "Current (10s average)",
       "type": "timeseries"
     },
     {
@@ -3162,8 +3399,15 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "dash": [
+                0,
+                10
+              ],
+              "fill": "dot"
+            },
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 10,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -3189,15 +3433,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "amp"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 288
+        "y": 297
       },
       "id": 12,
       "options": {
@@ -3224,7 +3469,7 @@
           "refId": "A"
         }
       ],
-      "title": "Amperage (900s average)",
+      "title": "Current (900s average)",
       "type": "timeseries"
     }
   ],
@@ -3243,5 +3488,5 @@
   "timezone": "browser",
   "title": "PAC2200",
   "uid": "1c5e0df7-e965-43b4-8786-bcf478d248c8",
-  "version": 1
+  "version": 8
 }
