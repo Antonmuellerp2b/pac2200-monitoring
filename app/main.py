@@ -3,7 +3,7 @@ import time
 import requests
 from datetime import datetime
 
-print('STARTING MAIN.py')
+print('STARTING MAIN.py') 
 
 # Environment variables
 try:
@@ -70,21 +70,23 @@ def parse_ts_string(ts_str):
 
 # JSON-Daten parsen & Werte + Zeitstempel extrahieren
 def extract_fields(source, json_data):
+    values = {}
+    ts_str = None
+
     if source == "INST":
         values = json_data.get("INST_VALUES", {})
-        ts_str = json_data.get("LOCAL_TIME")
-    elif source == "AVG1":
-        stage = json_data.get("AVERAGE_VALUES", {}).get("STAGE1", {})
+        ts_str = values.get("LOCAL_TIME")
+
+    elif source in ["AVG1", "AVG2"]:
+        stage_key = "STAGE1" if source == "AVG1" else "STAGE2"
+        stage = json_data.get("AVERAGE_VALUES", {}).get(stage_key, {})
         values = stage
         ts_str = stage.get("TS")
-    elif source == "AVG2":
-        stage = json_data.get("AVERAGE_VALUES", {}).get("STAGE2", {})
-        values = stage
-        ts_str = stage.get("TS")
+
     elif source == "COUNTER":
-        values = {}
-        ts_str = json_data.get("COUNTER", {}).get("LOCAL_TIME")
-        t1_data = json_data.get("COUNTER", {}).get("ACTIVE_ENERGY", {}).get("IMPORT", {}).get("T1", {})
+        counter_data = json_data.get("COUNTER", {})
+        ts_str = counter_data.get("LOCAL_TIME")
+        t1_data = counter_data.get("ACTIVE_ENERGY", {}).get("IMPORT", {}).get("T1", {})
 
         mapping = {
             "ACT_ENERGY_IMPORT_T1_L1": "L1",
@@ -94,15 +96,21 @@ def extract_fields(source, json_data):
         }
 
         for field, key in mapping.items():
-            if key in t1_data:
-                values[field] = {"value": t1_data[key]}
+            val = t1_data.get(key)
+            if val is not None:
+                values[field] = {"value": val}
 
-    field_data = {}
-    for key in FIELDS + COUNTER_FIELDS:
-        if key in values and isinstance(values[key], dict) and "value" in values[key]:
-            field_data[key] = values[key]["value"]
+    # Felder extrahieren
+    field_data = {
+        key: values[key]["value"]
+        for key in FIELDS + COUNTER_FIELDS
+        if key in values and isinstance(values[key], dict) and "value" in values[key]
+    }
 
     ts = parse_ts_string(ts_str) if ts_str else None
+
+    print("source", source, "ts_str", ts_str, "ts", ts)
+
     return field_data, ts
 
 # Werte nach InfluxDB schreiben
@@ -151,6 +159,8 @@ while True:
                 print(f"[{source}] Data fetched successfully (size: {len(r.content)} bytes)")
 
                 field_data, ts = extract_fields(source, json_data)
+
+
 
                 if field_data:
                     print(f"[{source}] Extracted {len(field_data)} fields, writing to InfluxDB")
