@@ -8,20 +8,14 @@
 influxdb-config/
 influxdb/
 
-# ignore all Grafana files
+# ALLE grafana-Dateien ignorieren ...
 grafana/*
 
-# except the provisioning files
+# ... außer provisioning und darin dashboards
 !grafana/provisioning/
 !grafana/provisioning/dashboards/
 !grafana/provisioning/dashboards/*.json
 !grafana/provisioning/dashboards/*.yaml
-!grafana/provisioning/
-!grafana/provisioning/contactpoints/
-!grafana/provisioning/contactpoints/*.yml
-!grafana/provisioning/
-!grafana/provisioning/notificationpolicies/
-!grafana/provisioning/notificationpolicies/*.yml
 
 
 # Andere Unterordner in grafana sollen weiter ignoriert bleiben
