@@ -1,0 +1,7 @@
+apiVersion: 1
+
+groups:
+  - name: "Default Policy"
+    interval: 1m
+    rules:
+      - receiver: "Email Web.de"
