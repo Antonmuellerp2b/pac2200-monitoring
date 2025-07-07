@@ -1,7 +1,7 @@
 apiVersion: 1
 notificationPolicies:
   - orgId: 1
-    receiver: default-email
+    receiver: grafana-default-email
     group_by:
       - alertname
     group_interval: 30s
