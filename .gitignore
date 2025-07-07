@@ -16,6 +16,7 @@ grafana/*
 !grafana/provisioning/dashboards/
 !grafana/provisioning/dashboards/*.json
 !grafana/provisioning/dashboards/*.yaml
-
+!grafana/provisioning/alerting/
+!grafana/provisioning/alerting/**
 
 # Andere Unterordner in grafana sollen weiter ignoriert bleiben
