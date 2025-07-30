@@ -6,4 +6,4 @@ contactPoints:
       - uid: email-alerts
         type: email
         settings:
-          addresses: "shanezz@web.de"
+          addresses: "{{ALERT_EMAIL_RECIPIENT}}"

@@ -19,4 +19,7 @@ grafana/*
 !grafana/provisioning/alerting/
 !grafana/provisioning/alerting/**
 
+# Alerting contact-points.yaml wird generiert und soll nicht ins Git:
+grafana/provisioning/alerting/contact-points.yaml
+
 # Andere Unterordner in grafana sollen weiter ignoriert bleiben
