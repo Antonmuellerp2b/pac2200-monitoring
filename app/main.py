@@ -145,6 +145,30 @@ def write_to_influx(source, field_data, ts=None):
 # Letzte Abfragezeit pro Quelle speichern
 last_run = {source: 0 for source in ENDPOINTS}
 
+# Initiale einmalige Abfrage aller Quellen beim Start
+for source, info in ENDPOINTS.items():
+    try:
+        print(f"[{source}] Initial fetch from {info['url']}")
+        r = requests.get(info["url"], timeout=10)
+        r.raise_for_status()
+        json_data = r.json()
+        print(f"[{source}] Data fetched successfully (size: {len(r.content)} bytes)")
+
+        field_data, ts = extract_fields(source, json_data)
+
+        if field_data:
+            print(f"[{source}] Extracted {len(field_data)} fields, writing to InfluxDB")
+            write_to_influx(source, field_data, ts=ts)
+            print(f"[{source}] Write complete")
+        else:
+            print(f"[{source}] No matching fields found in data")
+
+    except Exception as e:
+        print(f"[{source}] Error during initial fetch or processing: {e}")
+    finally:
+        # Auch hier den Zeitstempel setzen, damit direkt danach nicht nochmal gepollt wird
+        last_run[source] = time.time()
+
 # Hauptloop
 while True:
     now = time.time()
