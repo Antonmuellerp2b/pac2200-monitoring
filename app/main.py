@@ -11,11 +11,11 @@ try:
     influx_token = os.environ["INFLUX_TOKEN"]
     bucket = os.environ["INFLUX_BUCKET"]
     org = os.environ["INFLUX_ORG"]
-    poll_interval = int(os.environ.get("POLL_INTERVAL", 5))
+    poll_interval_seconds = int(os.environ.get("POLL_INTERVAL_SECONDS", 5))
     base_url = os.environ["PAC2200_URL"]
 
     print(f"PAC2200 base URL: {base_url}")
-    print(f"POLL_INTERVAL: {poll_interval}")
+    print(f"POLL_INTERVAL_SECONDS: {poll_interval_seconds}")
 except KeyError as e:
     print(f"❌ Environment variable missing: {e}")
     exit(1)
@@ -176,4 +176,4 @@ while True:
                 last_run[source] = now
                 print(f"[{source}] Next fetch earliest after {interval} seconds")
 
-    time.sleep(poll_interval)
+    time.sleep(poll_interval_seconds)
