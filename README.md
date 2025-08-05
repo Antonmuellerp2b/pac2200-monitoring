@@ -40,6 +40,8 @@ powershell -ExecutionPolicy Bypass -File .\up.ps1 -d
 
 ## After starting up the project, open Grafana in browser
 
+- for default port
+
 ```
 localhost:4300
 ```
