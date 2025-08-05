@@ -25,7 +25,7 @@ This project is a monitoring tool for the PAC2200 device. It periodically fetche
 # Change all other login credentials in .env
 ```
 
-## ▶️ Starting the Project
+## ▶️ Starting the project
 
 ```bash
 # To start in Windows:
@@ -38,10 +38,14 @@ powershell -ExecutionPolicy Bypass -File .\up.ps1 -d
 ./linux_up.sh -d
 ```
 
-## After starting up, open Grafana in browser
-localhost:4300
+## After starting up the project, open Grafana in browser
 
-## ⏹️ Stopping the Project
+```
+localhost:4300
+```
+
+
+## ⏹️ Stopping the project
 
 ```bash
 # To stop docker just run:
