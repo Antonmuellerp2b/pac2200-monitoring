@@ -1,0 +1,13 @@
+# This file is used to delete alerting rules in Grafana (not possible in any other way).
+# The rules specified here will be deleted when Grafana starts up.
+# Ensure that the UIDs match the rules you want to delete.
+
+apiVersion: 1
+
+deleteRules:
+  - orgId: 1
+    uid: power_unbalance_01
+  - orgId: 1
+    uid: voltage_unbalance_01
+  - orgId: 1
+    uid: always_firing
