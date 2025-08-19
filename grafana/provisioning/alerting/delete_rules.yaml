@@ -8,6 +8,7 @@ deleteRules:
   - orgId: 1
     uid: power_unbalance_01
   - orgId: 1
-    uid: voltage_unbalance_01
+    uid: aeqiu9udpliwwc
   - orgId: 1
-    uid: always_firing
+    uid: p_sum_rule.yaml
+  

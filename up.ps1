@@ -12,5 +12,8 @@ $ErrorActionPreference = "Stop"
 # Render render_power_imbalance_rule.yaml aus der Vorlage mit .env
 ./render_power_imbalance_rule.ps1
 
+# Render power_sum_max_rule.yaml aus der Vorlage mit .env
+./render_power_sum_max_rule.ps1
+
 # Docker Compose mit allen übergebenen Argumenten starten
 docker compose up @Args

@@ -1,32 +1,32 @@
 apiVersion: 1
 groups:
     - orgId: 1
-      name: Active_Power<15_kW
+      name: Power_Sum_Max
       folder: _alerts
-      interval: 1m
+      interval: 10s
       rules:
-        - uid: aeqiu9udpliwwc
-          title: P_sum < 15
-          condition: C
+        - uid: aevheaeaae1a8d
+          title: Power Sum Max
+          condition: Above_Max_Threshold
           data:
-            - refId: A
+            - refId: Influx_Data
               relativeTimeRange:
                 from: 600
                 to: 0
-              datasourceUid: P951FEA4DE68E13C5
+              datasourceUid: "{{DATASOURCE_UID}}"
               model:
                 intervalMs: 1000
                 maxDataPoints: 43200
                 query: |
-                    from(bucket: "pac2200")
+                    from(bucket: "{{INFLUXDB_BUCKET}}")
                       |> range(start: -5m)
                       |> filter(fn: (r) =>
                         r._measurement == "pac2200-monitoring" and
                         r.source == "INST" and
                         contains(value: r._field, set: ["P_SUM"])
                       )
-                refId: A
-            - refId: B
+                refId: Influx_Data
+            - refId: Last_Power_Value
               datasourceUid: __expr__
               model:
                 conditions:
@@ -45,19 +45,19 @@ groups:
                 datasource:
                     type: __expr__
                     uid: __expr__
-                expression: A
+                expression: Influx_Data
                 intervalMs: 1000
                 maxDataPoints: 43200
                 reducer: last
-                refId: B
+                refId: Last_Power_Value
                 type: reduce
-            - refId: C
+            - refId: Above_Max_Threshold
               datasourceUid: __expr__
               model:
                 conditions:
                     - evaluator:
                         params:
-                            - 0
+                            - {{TOTAL_POWER_THRESHOLD_KW}}
                         type: gt
                       operator:
                         type: and
@@ -71,16 +71,17 @@ groups:
                 datasource:
                     type: __expr__
                     uid: __expr__
-                expression: B
+                expression: Last_Power_Value
                 intervalMs: 1000
                 maxDataPoints: 43200
-                refId: C
+                refId: Above_Max_Threshold
                 type: threshold
           noDataState: NoData
           execErrState: Error
-          for: 1m
           annotations:
-            summary: Active Power Sum is below 15
+            description: Total consumption has crossed the chosen threshold. This may indicate high demand or overload risk.
+            summary: ⚡ High total consumption
+          labels: {}
           isPaused: false
           notification_settings:
             receiver: grafana-default-email

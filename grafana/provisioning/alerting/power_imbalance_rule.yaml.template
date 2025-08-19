@@ -10,14 +10,14 @@ groups:
         condition: Imbalance
         data:
           - refId: A
-            datasourceUid: "P951FEA4DE68E13C5"
+            datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
               from: 300   # 5 Minuten
               to: 0
             model:
               query: |
-                from(bucket: "pac2200")
-                  |> range(start: -5m)
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -16m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and
@@ -25,14 +25,14 @@ groups:
                   )
                   |> last()
           - refId: B
-            datasourceUid: "P951FEA4DE68E13C5"
+            datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
               from: 300
               to: 0
             model:
               query: |
-                from(bucket: "pac2200")
-                  |> range(start: -5m)
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -16m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and
@@ -40,14 +40,14 @@ groups:
                   )
                   |> last()
           - refId: C
-            datasourceUid: "P951FEA4DE68E13C5"
+            datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
               from: 300
               to: 0
             model:
               query: |
-                from(bucket: "pac2200")
-                  |> range(start: -5m)
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -16m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and
@@ -77,16 +77,16 @@ groups:
             model:
               expression: |-
                 (
-                  ($Phase1 / $Phase2 > 1.5) || ($Phase2 / $Phase1 > 1.5) ||
-                  ($Phase1 / $Phase3 > 1.5) || ($Phase3 / $Phase1 > 1.5) ||
-                  ($Phase2 / $Phase3 > 1.5) || ($Phase3 / $Phase2 > 1.5)
-                ) && ($Phase1 >= 1 && $Phase2 >= 1 && $Phase3 >= 1)
+                  ($Phase1 / $Phase2 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase2 / $Phase1 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) ||
+                  ($Phase1 / $Phase3 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase3 / $Phase1 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) ||
+                  ($Phase2 / $Phase3 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase3 / $Phase2 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}})
+                ) && ($Phase1 >= {{PHASE_IMBALANCE_MIN_KW}} && $Phase2 >= {{PHASE_IMBALANCE_MIN_KW}} && $Phase3 >= {{PHASE_IMBALANCE_MIN_KW}})
               reducer: last
               type: math
         noDataState: NoData
         execErrState: Error
         annotations:
           summary: "⚠️ Phase power imbalance detected"
-          description: "Alert triggers if one phase exceeds others by threshold and all phases >= minimum."
+          description: "Alert triggers if one phase exceeds others by PHASE_IMBALANCE_RATIO_THRESHOLD and all phases >= minimum."
         notification_settings:
           receiver: grafana-default-email

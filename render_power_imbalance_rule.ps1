@@ -3,8 +3,8 @@ $ErrorActionPreference = "Stop"
 # Pfade
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $envPath = Join-Path $scriptDir ".env"
-$template = Join-Path $scriptDir "grafana/provisioning/alerting/render_power_imbalance_rule.yaml.template"
-$output = Join-Path $scriptDir "grafana/provisioning/alerting/render_power_imbalance_rule.yaml"
+$template = Join-Path $scriptDir "grafana/provisioning/alerting/power_imbalance_rule.yaml.template"
+$output = Join-Path $scriptDir "grafana/provisioning/alerting/power_imbalance_rule.yaml"
 
 # .env laden
 if (Test-Path $envPath) {
@@ -21,22 +21,22 @@ if (Test-Path $envPath) {
 }
 
 # Variablen prüfen
-$threshold = [System.Environment]::GetEnvironmentVariable("THRESHOLD")
-$minPhase = [System.Environment]::GetEnvironmentVariable("MIN_PHASE_VALUE")
+$PHASE_IMBALANCE_RATIO_THRESHOLD = [System.Environment]::GetEnvironmentVariable("PHASE_IMBALANCE_RATIO_THRESHOLD")
+$minPhase = [System.Environment]::GetEnvironmentVariable("PHASE_IMBALANCE_MIN_KW")
 $datasource = [System.Environment]::GetEnvironmentVariable("DATASOURCE_UID")
 $bucket = [System.Environment]::GetEnvironmentVariable("INFLUXDB_BUCKET")
 
-if (-not $threshold) { Write-Error "THRESHOLD not set in .env!"; exit 1 }
-if (-not $minPhase) { Write-Error "MIN_PHASE_VALUE not set in .env!"; exit 1 }
+if (-not $PHASE_IMBALANCE_RATIO_THRESHOLD) { Write-Error "PHASE_IMBALANCE_RATIO_THRESHOLD not set in .env!"; exit 1 }
+if (-not $minPhase) { Write-Error "PHASE_IMBALANCE_MIN_KW not set in .env!"; exit 1 }
 if (-not $datasource) { Write-Error "DATASOURCE_UID not set in .env!"; exit 1 }
 if (-not $bucket) { Write-Error "INFLUXDB_BUCKET not set in .env!"; exit 1 }
 
 # Template ersetzen
 (Get-Content $template) `
-    -replace "{{THRESHOLD}}", $threshold `
-    -replace "{{MIN_PHASE_VALUE}}", $minPhase `
+    -replace "{{PHASE_IMBALANCE_RATIO_THRESHOLD}}", $PHASE_IMBALANCE_RATIO_THRESHOLD `
+    -replace "{{PHASE_IMBALANCE_MIN_KW}}", $minPhase `
     -replace "{{DATASOURCE_UID}}", $datasource `
     -replace "{{INFLUXDB_BUCKET}}", $bucket `
     | Set-Content $output
 
-Write-Host "Rendered $output with THRESHOLD=$threshold, MIN_PHASE_VALUE=$minPhase, DATASOURCE_UID=$datasource, INFLUXDB_BUCKET=$bucket"
+Write-Host "Rendered $output with PHASE_IMBALANCE_RATIO_THRESHOLD=$PHASE_IMBALANCE_RATIO_THRESHOLD, PHASE_IMBALANCE_MIN_KW=$minPhase, DATASOURCE_UID=$datasource, INFLUXDB_BUCKET=$bucket"
