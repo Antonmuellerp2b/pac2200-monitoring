@@ -1,0 +1,92 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: Imbalance
+    folder: _alerts
+    interval: 10s
+    rules:
+      - uid: phase_power_imbalance
+        title: Phase Power Imbalance
+        condition: Imbalance
+        data:
+          - refId: A
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 300   # 5 Minuten
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -5m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "pac2200-monitoring" and
+                    r.source == "AVG2" and
+                    r._field == "P_L1"
+                  )
+                  |> last()
+          - refId: B
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 300
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -5m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "pac2200-monitoring" and
+                    r.source == "AVG2" and
+                    r._field == "P_L2"
+                  )
+                  |> last()
+          - refId: C
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 300
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -5m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "pac2200-monitoring" and
+                    r.source == "AVG2" and
+                    r._field == "P_L3"
+                  )
+                  |> last()
+          - refId: Phase1
+            datasourceUid: __expr__
+            model:
+              expression: A
+              reducer: last
+              type: reduce
+          - refId: Phase2
+            datasourceUid: __expr__
+            model:
+              expression: B
+              reducer: last
+              type: reduce
+          - refId: Phase3
+            datasourceUid: __expr__
+            model:
+              expression: C
+              reducer: last
+              type: reduce
+          - refId: Imbalance
+            datasourceUid: __expr__
+            model:
+              expression: |-
+                (
+                  ($Phase1 / $Phase2 > {{THRESHOLD}}) || ($Phase2 / $Phase1 > {{THRESHOLD}}) ||
+                  ($Phase1 / $Phase3 > {{THRESHOLD}}) || ($Phase3 / $Phase1 > {{THRESHOLD}}) ||
+                  ($Phase2 / $Phase3 > {{THRESHOLD}}) || ($Phase3 / $Phase2 > {{THRESHOLD}})
+                ) && ($Phase1 >= {{MIN_PHASE_VALUE}} && $Phase2 >= {{MIN_PHASE_VALUE}} && $Phase3 >= {{MIN_PHASE_VALUE}})
+              reducer: last
+              type: math
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: "⚠️ Phase power imbalance detected"
+          description: "Alert triggers if one phase exceeds others by threshold and all phases >= minimum."
+        notification_settings:
+          receiver: grafana-default-email
