@@ -12,7 +12,7 @@ groups:
           - refId: A
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 1800   # 30 minutes
+              from: 1801   # 30 minutes
               to: 0
             model:
               query: |
