@@ -6,5 +6,5 @@ deleteContactPoints:
   # <int> organization ID, default = 1
   - orgId: 1
     # <string, required> unique identifier for the receiver
-    uid: first_uid
+    uid: uid-to-delete
   
