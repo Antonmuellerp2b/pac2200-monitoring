@@ -20,7 +20,7 @@ grafana/*
 !grafana/provisioning/alerting/**
 
 # Alerting rules and contact-points are generated and don't belong in Git:
-grafana/provisioning/alerting/power_sum_max.yaml
+grafana/provisioning/alerting/power_sum_max_rule.yaml
 grafana/provisioning/alerting/power_imbalance_rule.yaml
 grafana/provisioning/alerting/contact-points.yaml
 
