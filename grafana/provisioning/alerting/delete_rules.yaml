@@ -6,9 +6,9 @@ apiVersion: 1
 
 deleteRules:
   - orgId: 1
-    uid: power_unbalance_01
+    uid: rule1
   - orgId: 1
     uid: aeqiu9udpliwwc
   - orgId: 1
-    uid: p_sum_rule.yaml
+    uid: rule3
   

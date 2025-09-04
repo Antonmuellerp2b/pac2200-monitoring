@@ -22,6 +22,7 @@ This project is a monitoring tool for the PAC2200 device. It periodically fetche
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
 - For e-mail alerts, set e-mail + password in .env file and set GF_SMTP_ENABLED=true
 - Change all other login credentials in .env
+- Change PAC2200 IP adress
 
 ## ▶️ Starting the project
 
