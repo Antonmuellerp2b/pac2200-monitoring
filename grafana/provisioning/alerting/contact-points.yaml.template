@@ -7,5 +7,5 @@ contactPoints:
         type: email
         settings:
           addresses: "{{ALERT_EMAIL_RECIPIENT}}"
-          from_name: "Grafana {{ALERT_EMAIL_SITE_ID}}"
-          subject: "[{{ALERT_EMAIL_SITE_ID}}] {{ .Title }}"
+          from_name: "Grafana {{SITE_ID}}"
+          subject: "[{{SITE_ID}}] {{ .Title }}"
