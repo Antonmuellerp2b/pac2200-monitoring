@@ -27,7 +27,7 @@ groups:
           - refId: B
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 300
+              from: 1800
               to: 0
             model:
               query: |
@@ -42,7 +42,7 @@ groups:
           - refId: C
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 300
+              from: 1800
               to: 0
             model:
               query: |
