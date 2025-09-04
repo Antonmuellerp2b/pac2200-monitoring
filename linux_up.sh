@@ -13,6 +13,9 @@ set -e
 # Render render_power_imbalance_rule.yaml from template using .env
 ./render_power_imbalance_rule.sh
 
+# Render power_sum_max_rule.yaml from template using .env
+./render_power_sum_max_rule.sh
+
 # Set permissions for Grafana data directory
 [ "$(uname)" = "Linux" ] && sudo chown -R 472:472 ./grafana || true
 
