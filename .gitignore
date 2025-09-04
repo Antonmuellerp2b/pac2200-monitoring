@@ -1,17 +1,17 @@
-# Mac-Systemdateien
+# MAC system files
 .DS_Store
 
-# Umgebungsdateien
+# environment variable file
 .env
 
 # Influx
 influxdb-config/
 influxdb/
 
-# ALLE grafana-Dateien ignorieren ...
+# ignore all grafana files
 grafana/*
 
-# ... außer provisioning und darin dashboards
+# ... except provisioning and its dashboards
 !grafana/provisioning/
 !grafana/provisioning/dashboards/
 !grafana/provisioning/dashboards/*.json
@@ -19,7 +19,8 @@ grafana/*
 !grafana/provisioning/alerting/
 !grafana/provisioning/alerting/**
 
-# Alerting contact-points.yaml wird generiert und soll nicht ins Git:
+# Alerting rules and contact-points are generated and don't belong in Git:
+grafana/provisioning/alerting/power_sum_max.yaml
+grafana/provisioning/alerting/power_imbalance_rule.yaml
 grafana/provisioning/alerting/contact-points.yaml
 
-# Andere Unterordner in grafana sollen weiter ignoriert bleiben
