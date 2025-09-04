@@ -21,10 +21,21 @@ $template = Join-Path $scriptDir "grafana/provisioning/alerting/contact-points.y
 $output = Join-Path $scriptDir "grafana/provisioning/alerting/contact-points.yaml"
 
 $recipient = [System.Environment]::GetEnvironmentVariable("ALERT_EMAIL_RECIPIENT")
+$siteId    = [System.Environment]::GetEnvironmentVariable("ALERT_EMAIL_SITE_ID")
+
 if (-not $recipient) {
     Write-Error "ALERT_EMAIL_RECIPIENT is not set in .env!"
     exit 1
 }
+if (-not $siteId) {
+    Write-Error "ALERT_EMAIL_SITE_ID is not set in .env!"
+    exit 1
+}
 
-(Get-Content $template) -replace "{{ALERT_EMAIL_RECIPIENT}}", $recipient | Set-Content $output
-Write-Host "Rendered $output with ALERT_EMAIL_RECIPIENT=$recipient"
+# beide Platzhalter ersetzen
+(Get-Content $template) `
+    -replace "{{ALERT_EMAIL_RECIPIENT}}", $recipient `
+    -replace "{{ALERT_EMAIL_SITE_ID}}", $siteId `
+    | Set-Content $output
+
+Write-Host "Rendered $output with ALERT_EMAIL_RECIPIENT=$recipient and ALERT_EMAIL_SITE_ID=$siteId"
