@@ -17,4 +17,4 @@ set -e
 [ "$(uname)" = "Linux" ] && sudo chown -R 472:472 ./grafana || true
 
 # Start docker compose
-exec docker-compose up "$@"
+exec docker compose up "$@"
