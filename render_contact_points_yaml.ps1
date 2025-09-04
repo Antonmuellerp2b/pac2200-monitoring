@@ -31,7 +31,7 @@ if (-not $siteId) {
     Write-Error "ALERT_EMAIL_SITE_ID is not set in .env!"
     exit 1
 }
-
+#test
 # beide Platzhalter ersetzen
 (Get-Content $template) `
     -replace "{{ALERT_EMAIL_RECIPIENT}}", $recipient `
