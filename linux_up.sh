@@ -1,31 +1,39 @@
 #!/bin/bash
-# linux_up.sh - Start PAC2200 stack on Linux, ensuring correct permissions for Grafana.
-# Renders all needed config files and starts docker compose.
+# linux_up.sh - Universal script to start PAC2200 stack on Linux
+# Handles permissions for Grafana and chooses the correct Docker Compose command.
 # Usage: ./linux_up.sh [docker-compose-args...]
 
 set -eu
 
-# Set permissions for the current user (Linux only)
-if [ "$(uname)" = "Linux" ]; then
-  sudo chown -R "$USER":"$USER" ./grafana
+# Detect which Docker Compose command to use
+if command -v docker-compose &> /dev/null; then
+    COMPOSE_CMD="docker-compose"
+elif docker compose version &> /dev/null; then
+    COMPOSE_CMD="docker compose"
+else
+    echo "Error: neither docker-compose nor docker compose found."
+    exit 1
 fi
 
-# Render influxdb.yaml from template using .env
+echo "Using $COMPOSE_CMD"
+
+# Set permissions for Grafana directory to current user
+if [ "$(uname)" = "Linux" ]; then
+    echo "Setting Grafana directories ownership to $USER"
+    sudo chown -R "$USER":"$USER" ./grafana
+fi
+
+# Render all required YAML files from templates
 ./render_influxdb_yaml.sh
-
-# Render contact-points.yaml from template using .env
 ./render_contact_points_yaml.sh
-
-# Render power_imbalance_rule.yaml from template using .env
 ./render_power_imbalance_rule.sh
-
-# Render power_sum_max_rule.yaml from template using .env
 ./render_power_sum_max_rule.sh
 
-# Set permissions for Grafana data directory (Linux only)
+# Ensure Grafana data directory is writable by Grafana user (472:472)
 if [ "$(uname)" = "Linux" ]; then
-  sudo chown -R 472:472 ./grafana
+    echo "Setting Grafana data directory ownership to 472:472"
+    sudo chown -R 472:472 ./grafana
 fi
 
-# Start docker compose with any arguments passed to this script
-exec docker compose up "$@"
+# Start Docker Compose with any arguments passed to the script
+exec $COMPOSE_CMD up "$@"
