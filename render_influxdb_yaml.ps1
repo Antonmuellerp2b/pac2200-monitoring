@@ -1,14 +1,18 @@
+# render_influxdb_yaml.ps1 - Render InfluxDB datasource config from template using .env variables.
+# Usage: ./render_influxdb_yaml.ps1
+
 $ErrorActionPreference = "Stop"
 
+# Get script directory and .env path
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $envPath = Join-Path $scriptDir ".env"
 
+# Load .env variables
 if (Test-Path $envPath) {
     Get-Content $envPath | ForEach-Object {
         if ($_ -match '^\s*([^#][^=]+?)=(.*)') {
             $name = $matches[1].Trim()
             $value = $matches[2].Trim().Trim("'`"")
-
             [System.Environment]::SetEnvironmentVariable($name, $value, "Process")
         }
     }
@@ -25,6 +29,7 @@ New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
 
 $template = Get-Content $templatePath -Raw
 
+# Replace ${VARNAME} or $VARNAME with environment variable values
 $templateReplaced = [regex]::Replace($template, '\$\{?(\w+)\}?', {
     param($match)
     $varName = $match.Groups[1].Value
@@ -34,3 +39,5 @@ $templateReplaced = [regex]::Replace($template, '\$\{?(\w+)\}?', {
 })
 
 $templateReplaced | Set-Content -Encoding UTF8 $outputPath
+
+Write-Host "Rendered $outputPath from $templatePath using .env variables."
