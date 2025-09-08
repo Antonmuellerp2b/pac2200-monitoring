@@ -1,3 +1,4 @@
+# refactored
 """
 PAC2200 Monitoring Script
 Collects data from PAC2200 endpoints and writes to InfluxDB.
@@ -112,9 +113,11 @@ def parse_ts_string(ts_str: str) -> int:
 def extract_fields(source: str, json_data: Dict[str, Any]) -> Tuple[Dict[str, Any], Optional[int]]:
     """
     Parse JSON data from PAC2200 endpoint and extract relevant fields and timestamp.
+
     Args:
         source (str): The endpoint/source name (e.g., 'INST', 'AVG1').
         json_data (dict): The JSON data returned from the endpoint.
+
     Returns:
         tuple: (field_data: dict, ts: int or None)
     """
@@ -161,6 +164,7 @@ def extract_fields(source: str, json_data: Dict[str, Any]) -> Tuple[Dict[str, An
 def write_to_influx(source: str, field_data: Dict[str, Any], ts: Optional[int] = None) -> None:
     """
     Write field data to InfluxDB using line protocol.
+
     Args:
         source (str): The endpoint/source name.
         field_data (dict): The field data to write.
