@@ -52,6 +52,6 @@ localhost:4300
 ```bash
 # To stop docker just run:
 docker-compose down
-or 
+# or 
 docker compose down
 ```
