@@ -25,7 +25,7 @@ fi
 
 # Render all required YAML files from templates
 ./render_influxdb_yaml.sh
-./render_contact_points.sh
+./render_contact_points_yaml.sh
 ./render_power_imbalance_rule.sh
 ./render_power_sum_max_rule.sh
 
