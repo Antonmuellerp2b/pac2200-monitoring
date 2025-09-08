@@ -1,17 +1,18 @@
-# MAC system files
+# .gitignore for PAC2200 Monitoring
+# Ignore system files, secrets, generated configs, and data volumes
+
+# macOS system files
 .DS_Store
 
-# environment variable file
+# Environment variable file (contains secrets)
 .env
 
 # Influx
 influxdb-config/
 influxdb/
 
-# ignore all grafana files
+# Ignore all Grafana files except provisioning and dashboards
 grafana/*
-
-# ... except provisioning and its dashboards
 !grafana/provisioning/
 !grafana/provisioning/dashboards/
 !grafana/provisioning/dashboards/*.json
@@ -23,4 +24,10 @@ grafana/*
 grafana/provisioning/alerting/power_sum_max_rule.yaml
 grafana/provisioning/alerting/power_imbalance_rule.yaml
 grafana/provisioning/alerting/contact-points.yaml
+
+grafana/provisioning/datasources/influxdb.yaml
+
+# Python cache
+__pycache__/
+*.pyc
 
