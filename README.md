@@ -55,3 +55,10 @@ docker-compose down
 # or 
 docker compose down
 ```
+
+## To handle problems pulling updates from the git
+
+sudo chown -R $USER:$USER ~/pac2200-monitoring
+rm README.md
+rm default.env
+git pull
