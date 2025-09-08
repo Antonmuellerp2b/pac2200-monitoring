@@ -1,4 +1,5 @@
-# This file is used to delete alerting rules in Grafana (not possible in any other way).
+# delete_rules.yaml
+# This file is used to delete provisioned alerting rules in Grafana (not possible in any other way).
 # The rules specified here will be deleted when Grafana starts up.
 # Ensure that the UIDs match the rules you want to delete.
 
@@ -8,7 +9,7 @@ deleteRules:
   - orgId: 1
     uid: rule1
   - orgId: 1
-    uid: aeqiu9udpliwwc
+    uid: aeqiu9udpliwwc313
   - orgId: 1
     uid: rule3
-  
+

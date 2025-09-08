@@ -1,3 +1,6 @@
+# dashboards.yaml - Grafana dashboard provisioning
+# This file configures the default dashboard provider for file-based dashboards
+
 apiVersion: 1
 
 providers:
