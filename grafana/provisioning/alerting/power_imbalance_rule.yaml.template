@@ -12,12 +12,12 @@ groups:
           - refId: A
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 300   # 5 Minuten
+              from: 1800  # 30 minutes
               to: 0
             model:
               query: |
                 from(bucket: "{{INFLUXDB_BUCKET}}")
-                  |> range(start: -16m)
+                  |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and
@@ -27,12 +27,12 @@ groups:
           - refId: B
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 300
+              from: 1800
               to: 0
             model:
               query: |
                 from(bucket: "{{INFLUXDB_BUCKET}}")
-                  |> range(start: -16m)
+                  |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and
@@ -42,12 +42,12 @@ groups:
           - refId: C
             datasourceUid: "{{DATASOURCE_UID}}"
             relativeTimeRange:
-              from: 300
+              from: 1800
               to: 0
             model:
               query: |
                 from(bucket: "{{INFLUXDB_BUCKET}}")
-                  |> range(start: -16m)
+                  |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "pac2200-monitoring" and
                     r.source == "AVG2" and

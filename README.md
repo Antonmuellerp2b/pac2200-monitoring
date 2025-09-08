@@ -22,7 +22,7 @@ This project is a monitoring tool for the PAC2200 device. It periodically fetche
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
 - For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
 - Set ALERT_EMAIL_RECIPIENT
-- Set ALERT_EMAIL_SITE_ID (to determine which site the alert is being fired from)
+- Set SITE_ID (to determine which site the alert is being fired from)
 - Change all other login credentials in .env
 - Change PAC2200 IP adress
 
@@ -52,4 +52,13 @@ localhost:4300
 ```bash
 # To stop docker just run:
 docker-compose down
+# or 
+docker compose down
 ```
+
+## To handle problems pulling updates from the git
+
+sudo chown -R $USER:$USER ~/pac2200-monitoring
+rm README.md
+rm default.env
+git pull

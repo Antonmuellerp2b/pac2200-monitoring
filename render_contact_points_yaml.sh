@@ -18,14 +18,14 @@ if [ -z "$ALERT_EMAIL_RECIPIENT" ]; then
   exit 1
 fi
 
-if [ -z "$ALERT_EMAIL_SITE_ID" ]; then
-  echo "ALERT_EMAIL_SITE_ID is not set in .env!"
+if [ -z "$SITE_ID" ]; then
+  echo "SITE_ID is not set in .env!"
   exit 1
 fi
 
 sed \
   -e "s/{{ALERT_EMAIL_RECIPIENT}}/$ALERT_EMAIL_RECIPIENT/g" \
-  -e "s/{{ALERT_EMAIL_SITE_ID}}/$ALERT_EMAIL_SITE_ID/g" \
+  -e "s/{{SITE_ID}}/$SITE_ID/g" \
   "$TEMPLATE" > "$OUTPUT"
 
-echo "Rendered $OUTPUT with ALERT_EMAIL_RECIPIENT=$ALERT_EMAIL_RECIPIENT and ALERT_EMAIL_SITE_ID=$ALERT_EMAIL_SITE_ID"
+echo "Rendered $OUTPUT with ALERT_EMAIL_RECIPIENT=$ALERT_EMAIL_RECIPIENT and SITE_ID=$SITE_ID"
