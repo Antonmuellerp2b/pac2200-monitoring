@@ -1,12 +1,15 @@
+# render_power_imbalance_rule.ps1 - Render Grafana power_imbalance_rule.yaml from template using .env variables.
+# Usage: ./render_power_imbalance_rule.ps1
+
 $ErrorActionPreference = "Stop"
 
-# Pfade
+# Get script directory and .env path
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $envPath = Join-Path $scriptDir ".env"
 $template = Join-Path $scriptDir "grafana/provisioning/alerting/power_imbalance_rule.yaml.template"
 $output = Join-Path $scriptDir "grafana/provisioning/alerting/power_imbalance_rule.yaml"
 
-# .env laden
+# Load .env variables
 if (Test-Path $envPath) {
     Get-Content $envPath | ForEach-Object {
         if ($_ -match '^([\w]+)=(.*)$') {
@@ -20,7 +23,7 @@ if (Test-Path $envPath) {
     exit 1
 }
 
-# Variablen prüfen
+# Check required variables
 $PHASE_IMBALANCE_RATIO_THRESHOLD = [System.Environment]::GetEnvironmentVariable("PHASE_IMBALANCE_RATIO_THRESHOLD")
 $minPhase = [System.Environment]::GetEnvironmentVariable("PHASE_IMBALANCE_MIN_KW")
 $datasource = [System.Environment]::GetEnvironmentVariable("DATASOURCE_UID")
@@ -31,7 +34,7 @@ if (-not $minPhase) { Write-Error "PHASE_IMBALANCE_MIN_KW not set in .env!"; exi
 if (-not $datasource) { Write-Error "DATASOURCE_UID not set in .env!"; exit 1 }
 if (-not $bucket) { Write-Error "INFLUXDB_BUCKET not set in .env!"; exit 1 }
 
-# Template ersetzen
+# Render template
 (Get-Content $template) `
     -replace "{{PHASE_IMBALANCE_RATIO_THRESHOLD}}", $PHASE_IMBALANCE_RATIO_THRESHOLD `
     -replace "{{PHASE_IMBALANCE_MIN_KW}}", $minPhase `

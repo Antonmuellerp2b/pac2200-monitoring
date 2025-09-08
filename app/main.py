@@ -1,10 +1,25 @@
+# refactored
+"""
+PAC2200 Monitoring Script
+Collects data from PAC2200 endpoints and writes to InfluxDB.
+"""
 
-import os
 import logging
+import os
 import time
-import requests
 from datetime import datetime
-from typing import Tuple, Dict, Any, Optional
+from typing import Any, Dict, Optional, Tuple
+
+import requests
+
+
+def configure_logging(level: int = logging.INFO) -> None:
+    """Configure logging for the application."""
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s %(levelname)s %(message)s',
+    )
+
 
 # --- Read and check environment variables ---
 def parse_poll_interval(raw: Any) -> int:
@@ -19,6 +34,7 @@ def parse_poll_interval(raw: Any) -> int:
         logging.error("POLL_INTERVAL_SECONDS must be a positive integer.")
         exit(1)
     return interval
+
 
 def load_env_vars() -> Tuple[str, str, str, str, int, str]:
     """Load and validate required environment variables."""
@@ -46,14 +62,11 @@ def load_env_vars() -> Tuple[str, str, str, str, int, str]:
     return influx_url, influx_token, influx_bucket, influx_org, poll_interval_seconds, pac2200_url
 
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s %(message)s',
-)
+configure_logging()
 
 # --- Configuration section ---
 # List of fields to extract from the PAC2200
-FIELDS = [
+FIELDS: list[str] = [
     # Voltages
     "V_L1", "V_L2", "V_L3",
     "V_L12", "V_L23", "V_L31",
@@ -71,7 +84,7 @@ FIELDS = [
     "FREQ"
 ]
 # List of counter fields
-COUNTER_FIELDS = [
+COUNTER_FIELDS: list[str] = [
     "ACT_ENERGY_IMPORT_T1_L1",
     "ACT_ENERGY_IMPORT_T1_L2",
     "ACT_ENERGY_IMPORT_T1_L3",
@@ -79,14 +92,16 @@ COUNTER_FIELDS = [
 ]
 
 INFLUX_URL, INFLUX_TOKEN, INFLUX_BUCKET, INFLUX_ORG, POLL_INTERVAL_SECONDS, PAC2200_URL = load_env_vars()
+
 # --- Query intervals in seconds ---
-ENDPOINTS = {
+ENDPOINTS: dict[str, dict[str, object]] = {
     "INST": {"url": f"{PAC2200_URL}INST", "interval": 5},
     "AVG1": {"url": f"{PAC2200_URL}AVG1", "interval": 10},
     "AVG2": {"url": f"{PAC2200_URL}AVG2", "interval": 900},
     "COUNTER": {"url": f"{PAC2200_URL}COUNTER", "interval": 5},
     "EXTREME": {"url": f"{PAC2200_URL}EXTREME", "interval": 900}
 }
+
 
 def parse_ts_string(ts_str: str) -> int:
     """Convert ISO timestamp string to Unix timestamp (seconds)."""
@@ -98,14 +113,16 @@ def parse_ts_string(ts_str: str) -> int:
 def extract_fields(source: str, json_data: Dict[str, Any]) -> Tuple[Dict[str, Any], Optional[int]]:
     """
     Parse JSON data from PAC2200 endpoint and extract relevant fields and timestamp.
+
     Args:
         source (str): The endpoint/source name (e.g., 'INST', 'AVG1').
         json_data (dict): The JSON data returned from the endpoint.
+
     Returns:
         tuple: (field_data: dict, ts: int or None)
     """
-    values = {}
-    ts_str = None
+    values: Dict[str, Any] = {}
+    ts_str: Optional[str] = None
 
     if source == "INST":
         values = json_data.get("INST_VALUES", {})
@@ -135,7 +152,7 @@ def extract_fields(source: str, json_data: Dict[str, Any]) -> Tuple[Dict[str, An
                 values[field] = {"value": val}
 
     # Extract fields
-    field_data = {}
+    field_data: Dict[str, Any] = {}
     for key in FIELDS + COUNTER_FIELDS:
         if key in values and isinstance(values[key], dict) and "value" in values[key]:
             field_data[key] = values[key]["value"]
@@ -147,6 +164,7 @@ def extract_fields(source: str, json_data: Dict[str, Any]) -> Tuple[Dict[str, An
 def write_to_influx(source: str, field_data: Dict[str, Any], ts: Optional[int] = None) -> None:
     """
     Write field data to InfluxDB using line protocol.
+
     Args:
         source (str): The endpoint/source name.
         field_data (dict): The field data to write.
@@ -178,8 +196,7 @@ def write_to_influx(source: str, field_data: Dict[str, Any], ts: Optional[int] =
 
 
 # Store last query time for each source
-last_run = {source: 0 for source in ENDPOINTS}
-
+last_run: dict[str, float] = {source: 0.0 for source in ENDPOINTS}
 
 
 def initial_fetch_all_sources() -> None:
@@ -210,6 +227,7 @@ def initial_fetch_all_sources() -> None:
         finally:
             # Also set the timestamp here, so the next poll does not happen immediately
             last_run[source] = time.time()
+
 
 def main() -> None:
     """

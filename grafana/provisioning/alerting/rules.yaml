@@ -1,3 +1,6 @@
+# rules.yaml - Grafana alert rule file provisioning
+# This file includes all alert rule templates in the alerting directory
+
 apiVersion: 1
 
 rule_files:

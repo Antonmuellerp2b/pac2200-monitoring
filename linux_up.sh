@@ -36,4 +36,4 @@ if [ "$(uname)" = "Linux" ]; then
 fi
 
 # Start Docker Compose with any arguments passed to the script
-exec $COMPOSE_CMD up -d "$@"
+exec $COMPOSE_CMD up "$@"

@@ -1,3 +1,6 @@
+# power_sum_max.yaml.template - Template for Grafana alert rule (power sum max)
+# All variables must be replaced by the render script before use
+
 apiVersion: 1
 groups:
     - orgId: 1

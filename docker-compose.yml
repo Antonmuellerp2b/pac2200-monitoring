@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   influxdb:
     image: influxdb:2.7
@@ -29,7 +31,6 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/alerting:/etc/grafana/provisioning/alerting:ro
-
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_SMTP_ENABLED=${GF_SMTP_ENABLED}
@@ -42,8 +43,6 @@ services:
       - GF_UNIFIED_ALERTING_ENABLED=true
       - GF_LOG_LEVEL=debug
 
-
-
   pac2200-monitoring:
     build: ./app
     container_name: pac2200-monitoring
@@ -51,9 +50,14 @@ services:
     depends_on:
       - influxdb
     environment:
-      - PAC2200_URL=${PAC2200_URL}
       - INFLUX_URL=${INFLUX_URL}
       - INFLUX_TOKEN=${INFLUXDB_TOKEN}
       - INFLUX_BUCKET=${INFLUXDB_BUCKET}
       - INFLUX_ORG=${INFLUXDB_ORG}
+      - PAC2200_URL=${PAC2200_URL}
       - POLL_INTERVAL_SECONDS=${POLL_INTERVAL_SECONDS}
+      - SITE_ID=${SITE_ID}
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: ["python3", "main.py"]

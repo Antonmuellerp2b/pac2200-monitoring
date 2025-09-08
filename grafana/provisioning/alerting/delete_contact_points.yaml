@@ -1,3 +1,6 @@
+# delete_contact_points.yaml - Grafana contact point deletion provisioning
+# List receivers (by UID) to be deleted from the alerting configuration
+
 # config file version
 apiVersion: 1
 
@@ -7,4 +10,3 @@ deleteContactPoints:
   - orgId: 1
     # <string, required> unique identifier for the receiver
     uid: uid-to-delete
-  

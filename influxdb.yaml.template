@@ -1,3 +1,6 @@
+# influxdb.yaml.template - Template for Grafana InfluxDB datasource provisioning
+# All variables must be replaced by the render script before use
+
 apiVersion: 1
 
 datasources:

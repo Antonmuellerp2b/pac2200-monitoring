@@ -1,9 +1,13 @@
-# PowerShell-Skript: render_contact_points_yaml.ps1
+# render_contact_points_yaml.ps1 - Render Grafana contact-points.yaml from template using .env variables.
+# Usage: ./render_contact_points_yaml.ps1
+
 $ErrorActionPreference = "Stop"
 
+# Get script directory and .env path
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $envPath = Join-Path $scriptDir ".env"
 
+# Load .env variables
 if (Test-Path $envPath) {
     Get-Content $envPath | ForEach-Object {
         if ($_ -match '^([\w]+)=(.*)$') {

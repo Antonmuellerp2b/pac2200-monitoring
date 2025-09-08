@@ -1,3 +1,6 @@
+# influxdb.yaml - Grafana InfluxDB datasource provisioning
+# This file is rendered from a template and should not be edited manually
+
 apiVersion: 1
 
 datasources:

@@ -1,3 +1,6 @@
+# notification-policies.yaml - Grafana notification policy provisioning
+# Adjust group and repeat intervals as needed for your alerting requirements
+
 apiVersion: 1
 notificationPolicies:
   - orgId: 1

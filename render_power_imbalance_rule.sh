@@ -1,27 +1,32 @@
 #!/usr/bin/env bash
+# render_power_imbalance_rule.sh - Render Grafana power_imbalance_rule.yaml from template using .env variables.
+# Usage: ./render_power_imbalance_rule.sh
+
 set -euo pipefail
 
-# Pfade
+# Paths
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENV_FILE="$SCRIPT_DIR/.env"
 TEMPLATE="$SCRIPT_DIR/grafana/provisioning/alerting/power_imbalance_rule.yaml.template"
 OUTPUT="$SCRIPT_DIR/grafana/provisioning/alerting/power_imbalance_rule.yaml"
 
-# .env laden
+# Load .env variables
 if [[ -f "$ENV_FILE" ]]; then
-    export $(grep -v '^#' "$ENV_FILE" | xargs)
+    set -a
+    . "$ENV_FILE"
+    set +a
 else
-    echo ".env file not found at $ENV_FILE"
+    echo ".env file not found at $ENV_FILE" >&2
     exit 1
 fi
 
-# Prüfen, dass alle nötigen Variablen gesetzt sind
+# Check required variables
 : "${PHASE_IMBALANCE_RATIO_THRESHOLD:?PHASE_IMBALANCE_RATIO_THRESHOLD not set in .env!}"
 : "${PHASE_IMBALANCE_MIN_KW:?PHASE_IMBALANCE_MIN_KW not set in .env!}"
 : "${DATASOURCE_UID:?DATASOURCE_UID not set in .env!}"
 : "${INFLUXDB_BUCKET:?INFLUXDB_BUCKET not set in .env!}"
 
-# Template rendern
+# Render template
 sed \
     -e "s|{{PHASE_IMBALANCE_RATIO_THRESHOLD}}|$PHASE_IMBALANCE_RATIO_THRESHOLD|g" \
     -e "s|{{PHASE_IMBALANCE_MIN_KW}}|$PHASE_IMBALANCE_MIN_KW|g" \
