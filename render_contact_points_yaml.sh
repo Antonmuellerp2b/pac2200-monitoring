@@ -1,25 +1,29 @@
 #!/bin/bash
-# Render contact-points.yaml from template and .env
+# render_contact_points_yaml.sh - Render Grafana contact-points.yaml from template using .env variables.
+# Usage: ./render_contact_points_yaml.sh
 
-set -e
+set -eu
 
-# Load .env variables
+# Load .env variables from project root
 if [ -f ".env" ]; then
   set -a
-  source .env
+  . .env
   set +a
+else
+  echo ".env file not found in current directory" >&2
+  exit 1
 fi
 
 TEMPLATE="grafana/provisioning/alerting/contact-points.yaml.template"
 OUTPUT="grafana/provisioning/alerting/contact-points.yaml"
 
-if [ -z "$ALERT_EMAIL_RECIPIENT" ]; then
-  echo "ALERT_EMAIL_RECIPIENT is not set in .env!"
+if [ -z "${ALERT_EMAIL_RECIPIENT:-}" ]; then
+  echo "ALERT_EMAIL_RECIPIENT is not set in .env!" >&2
   exit 1
 fi
 
-if [ -z "$SITE_ID" ]; then
-  echo "SITE_ID is not set in .env!"
+if [ -z "${SITE_ID:-}" ]; then
+  echo "SITE_ID is not set in .env!" >&2
   exit 1
 fi
 

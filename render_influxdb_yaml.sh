@@ -1,5 +1,8 @@
 #!/bin/bash
-set -e
+# render_influxdb_yaml.sh - Render InfluxDB datasource config from template using .env variables.
+# Usage: ./render_influxdb_yaml.sh
+
+set -eu
 
 # Load .env variables from project root
 if [ -f ".env" ]; then
