@@ -1,4 +1,3 @@
-# refactored
 """
 PAC2200 Monitoring Script
 Collects data from PAC2200 endpoints and writes to InfluxDB.
