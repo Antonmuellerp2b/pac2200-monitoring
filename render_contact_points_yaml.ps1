@@ -43,4 +43,3 @@ if (-not $siteId) {
     | Set-Content $output
 
 Write-Host "Rendered $output with ALERT_EMAIL_RECIPIENT=$recipient and SITE_ID=$siteId"
-# test
