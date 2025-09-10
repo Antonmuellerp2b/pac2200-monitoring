@@ -34,7 +34,7 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 ## ▶️ Starting the project
 
 ```bash
-# To start in Windows:
+# To start in Windows Powershell:
 powershell -ExecutionPolicy Bypass -File .\windows_up.ps1 -d
 
 # To start in Mac:
