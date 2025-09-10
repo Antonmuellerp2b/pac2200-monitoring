@@ -21,8 +21,8 @@ if (-not $DATASOURCE_UID) { Write-Error "DATASOURCE_UID not set in .env!"; exit 
 if (-not $INFLUXDB_BUCKET) { Write-Error "INFLUXDB_BUCKET not set in .env!"; exit 1 }
 if (-not $TOTAL_POWER_THRESHOLD_KW) { Write-Error "TOTAL_POWER_THRESHOLD_KW not set in .env!"; exit 1 }
 
-# Replace placeholders in template with environment variables
-(Get-Content $template) `
+# Replace placeholders in template with environment variables, skip comment lines
+(Get-Content $template | Where-Object { $_ -notmatch '^\s*#' }) `
     -replace "{{DATASOURCE_UID}}", $DATASOURCE_UID `
     -replace "{{INFLUXDB_BUCKET}}", $INFLUXDB_BUCKET `
     -replace "{{TOTAL_POWER_THRESHOLD_KW}}", $TOTAL_POWER_THRESHOLD_KW `
