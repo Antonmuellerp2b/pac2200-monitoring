@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   influxdb:
     image: influxdb:2.7
@@ -57,6 +55,7 @@ services:
       - PAC2200_URL=${PAC2200_URL}
       - POLL_INTERVAL_SECONDS=${POLL_INTERVAL_SECONDS}
       - SITE_ID=${SITE_ID}
+    # Mount the local app directory into the container for live code updates during development
     volumes:
       - ./app:/app
     working_dir: /app
