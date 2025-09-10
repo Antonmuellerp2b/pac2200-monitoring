@@ -25,11 +25,11 @@ OUTPUT="grafana/provisioning/alerting/power_sum_max_rule.yaml"
 # Create output directory if it does not exist
 mkdir -p "$(dirname "$OUTPUT")"
 
-# Replace placeholders in template with environment variables
-sed \
+# Replace placeholders in template with environment variables, skip comment lines
+grep -v '^#' "$TEMPLATE" | sed \
   -e "s|{{DATASOURCE_UID}}|$DATASOURCE_UID|g" \
   -e "s|{{INFLUXDB_BUCKET}}|$INFLUXDB_BUCKET|g" \
   -e "s|{{TOTAL_POWER_THRESHOLD_KW}}|$TOTAL_POWER_THRESHOLD_KW|g" \
-  "$TEMPLATE" > "$OUTPUT"
+  > "$OUTPUT"
 
 echo "Rendered $OUTPUT with DATASOURCE_UID=$DATASOURCE_UID, INFLUXDB_BUCKET=$INFLUXDB_BUCKET, TOTAL_POWER_THRESHOLD_KW=$TOTAL_POWER_THRESHOLD_KW"
