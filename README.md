@@ -35,10 +35,10 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 
 ```bash
 # To start in Windows:
-powershell -ExecutionPolicy Bypass -File .\up.ps1 -d
+powershell -ExecutionPolicy Bypass -File .\windows_up.ps1 -d
 
 # To start in Mac:
-./up.sh -d
+./mac_up.sh -d
 
 # To start in Linux:
 ./linux_up.sh -d
@@ -64,6 +64,5 @@ docker compose down
 ## To handle problems pulling updates from the git
 
 sudo chown -R $USER:$USER ~/pac2200-monitoring
-rm README.md
 rm default.env
 git pull
