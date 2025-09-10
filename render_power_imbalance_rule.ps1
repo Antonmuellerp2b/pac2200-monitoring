@@ -34,8 +34,8 @@ if (-not $minPhase) { Write-Error "PHASE_IMBALANCE_MIN_KW not set in .env!"; exi
 if (-not $datasource) { Write-Error "DATASOURCE_UID not set in .env!"; exit 1 }
 if (-not $bucket) { Write-Error "INFLUXDB_BUCKET not set in .env!"; exit 1 }
 
-# Render template
-(Get-Content $template) `
+# Render template, only skip comment lines
+(Get-Content $template | Where-Object { $_ -notmatch '^\s*#' }) `
     -replace "{{PHASE_IMBALANCE_RATIO_THRESHOLD}}", $PHASE_IMBALANCE_RATIO_THRESHOLD `
     -replace "{{PHASE_IMBALANCE_MIN_KW}}", $minPhase `
     -replace "{{DATASOURCE_UID}}", $datasource `
