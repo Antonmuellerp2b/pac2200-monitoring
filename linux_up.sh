@@ -17,10 +17,15 @@ fi
 ./render_power_imbalance_rule.sh
 ./render_power_sum_max_rule.sh
 
-# Make Grafana directories writable by everyone
+# Make Grafana directories writable only for the executing user and Grafana container
 if [ "$(uname)" = "Linux" ]; then
-    echo "Setting Grafana directories writable by all users"
-    chmod -R a+rwX ./grafana
+    echo "Setting Grafana directories writable for $USER and Grafana (472)"
+    # Change ownership to the executing user
+    sudo chown -R "$USER":"$USER" ./grafana
+    # Change group to Grafana UID 472 so the container can write
+    sudo chgrp -R 472 ./grafana
+    # Give read/write/execute permissions to user and group, none for others
+    chmod -R 770 ./grafana
 fi
 
 # Start docker compose
