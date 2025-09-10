@@ -1,7 +1,7 @@
 #!/bin/zsh
-# up.sh - Start all services for PAC2200 monitoring stack.
+# mac_up.sh - Start all services for PAC2200 monitoring stack.
 # Renders all needed config files and starts docker compose.
-# Usage: ./up.sh [docker-compose-args...]
+# Usage: ./mac_up.sh [docker-compose-args...]
 
 set -eu
 
