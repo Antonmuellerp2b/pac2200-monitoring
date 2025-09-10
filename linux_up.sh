@@ -5,18 +5,6 @@
 
 set -eu
 
-# Detect which Docker Compose command to use
-if command -v docker-compose &> /dev/null; then
-    COMPOSE_CMD="docker-compose"
-elif docker compose version &> /dev/null; then
-    COMPOSE_CMD="docker compose"
-else
-    echo "Error: neither docker-compose nor docker compose found."
-    exit 1
-fi
-
-echo "Using $COMPOSE_CMD"
-
 # Set permissions for Grafana directory to current user
 if [ "$(uname)" = "Linux" ]; then
     echo "Setting Grafana directories ownership to $USER"
@@ -35,5 +23,5 @@ if [ "$(uname)" = "Linux" ]; then
     sudo chown -R 472:472 ./grafana
 fi
 
-# Start Docker Compose with any arguments passed to the script
-exec $COMPOSE_CMD up "$@"
+# Start docker compose
+exec docker compose up "$@"
