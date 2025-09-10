@@ -27,7 +27,9 @@ $outputDir = Split-Path $outputPath -Parent
 
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
 
-$template = Get-Content $templatePath -Raw
+# Load template, skip comment lines
+$templateLines = Get-Content $templatePath | Where-Object { $_ -notmatch '^\s*#' }
+$template = ($templateLines -join "`n")
 
 # Replace ${VARNAME} or $VARNAME with environment variable values
 $templateReplaced = [regex]::Replace($template, '\$\{?(\w+)\}?', {
