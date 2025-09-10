@@ -17,10 +17,10 @@ fi
 ./render_power_imbalance_rule.sh
 ./render_power_sum_max_rule.sh
 
-# Ensure Grafana data directory is writable by Grafana user (472:472)
+# Make Grafana directories writable by everyone
 if [ "$(uname)" = "Linux" ]; then
-    echo "Setting Grafana data directory ownership to 472:472"
-    sudo chown -R 472:472 ./grafana
+    echo "Setting Grafana directories writable by all users"
+    chmod -R a+rwX ./grafana
 fi
 
 # Start docker compose
