@@ -1,6 +1,6 @@
-# up.ps1 - Start all services for PAC2200 monitoring stack (Windows)
+# windows_up.ps1 - Start all services for PAC2200 monitoring stack (Windows)
 # Renders all needed config files and starts docker compose.
-# Usage: powershell -ExecutionPolicy Bypass -File .\up.ps1 -d
+# Usage: powershell -ExecutionPolicy Bypass -File .\windows_up.ps1 -d
 
 $ErrorActionPreference = "Stop"
 
