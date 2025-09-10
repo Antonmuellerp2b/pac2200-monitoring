@@ -27,9 +27,11 @@ if [ -z "${SITE_ID:-}" ]; then
   exit 1
 fi
 
+# Render template, skip comment lines
+grep -v '^#' "$TEMPLATE" | \
 sed \
   -e "s/{{ALERT_EMAIL_RECIPIENT}}/$ALERT_EMAIL_RECIPIENT/g" \
   -e "s/{{SITE_ID}}/$SITE_ID/g" \
-  "$TEMPLATE" > "$OUTPUT"
+  > "$OUTPUT"
 
 echo "Rendered $OUTPUT with ALERT_EMAIL_RECIPIENT=$ALERT_EMAIL_RECIPIENT and SITE_ID=$SITE_ID"
