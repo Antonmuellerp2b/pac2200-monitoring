@@ -16,4 +16,4 @@ fi
 
 # Render the template to influxdb.yaml
 mkdir -p ./grafana/provisioning/datasources
-envsubst < influxdb.yaml.template > ./grafana/provisioning/datasources/influxdb.yaml
+grep -v '^#' influxdb.yaml.template | envsubst > ./grafana/provisioning/datasources/influxdb.yaml
