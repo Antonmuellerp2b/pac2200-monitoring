@@ -36,7 +36,8 @@ if (-not $siteId) {
     exit 1
 }
 
-(Get-Content $template) `
+# Hier: nur Kommentare aus der Template-Datei herausfiltern
+(Get-Content $template | Where-Object { $_ -notmatch '^\s*#' }) `
     -replace "{{ALERT_EMAIL_RECIPIENT}}", $recipient `
     -replace "{{SITE_ID}}", $siteId `
     | Set-Content $output
