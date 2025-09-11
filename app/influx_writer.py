@@ -5,7 +5,7 @@ import time
 from typing import Any, Dict, Optional
 import requests
 from config import (INFLUX_BUCKET, INFLUX_ORG, INFLUX_TOKEN, INFLUX_URL, ENDPOINTS)
-from scheduler import last_run
+from state import last_run
 from pac2200_client import extract_fields
 
 # Write values to InfluxDB

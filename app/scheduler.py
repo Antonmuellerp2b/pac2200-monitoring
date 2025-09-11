@@ -6,6 +6,7 @@ import logging
 import requests
 from config import POLL_INTERVAL_SECONDS
 from pac2200_client import extract_fields
+from state import last_run
 
 def polling_loop() -> None:
     """
@@ -42,16 +43,12 @@ def polling_loop() -> None:
                     finally:
                         last_run[source] = now
                         logging.info(f"[{source}] Next fetch earliest after {interval} seconds")
-                    time.sleep(1)  # Kleine Pause zwischen den einzelnen Endpoint-Requests
 
             time.sleep(POLL_INTERVAL_SECONDS)
     except KeyboardInterrupt:
         logging.info("Polling loop interrupted by user. Exiting cleanly.")
     except Exception as exc:
         logging.critical(f"Fatal error in polling loop: {exc}", exc_info=True)
-
-# Store last query time for each source
-last_run: dict[str, float] = {source: 0.0 for source in ENDPOINTS}
 
 
 
