@@ -8,26 +8,21 @@ from config import (INFLUX_BUCKET, INFLUX_ORG, INFLUX_TOKEN, INFLUX_URL, ENDPOIN
 from state import last_run
 from pac2200_client import extract_fields
 
-# Write values to InfluxDB
-def write_to_influx(source: str, field_data: Dict[str, Any], ts: Optional[int] = None) -> None:
+def write_multiple_to_influx(measurements: list[tuple[str, dict, int]]) -> None:
     """
-    Write field data to InfluxDB using line protocol.
-
-    Args:
-        source (str): The endpoint/source name.
-        field_data (dict): The field data to write.
-        ts (int, optional): The timestamp to use. If None, current time is used.
+    Write multiple measurements to InfluxDB in a single request.
+    measurements: List of (source, field_data, ts)
     """
+    lines = []
     ingest_time = int(time.time())
-    if not ts:
-        ts = ingest_time
-
-    tag = f"source={source}"
-    all_fields = field_data.copy()
-    all_fields["ingest_time"] = ingest_time
-    fields = ",".join(f"{k}={v}" for k, v in all_fields.items())
-    line = f"pac2200-monitoring,{tag} {fields} {ts}"
-
+    for source, field_data, ts in measurements:
+        tag = f"source={source}"
+        all_fields = field_data.copy()
+        all_fields["ingest_time"] = ingest_time
+        fields = ",".join(f"{k}={v}" for k, v in all_fields.items())
+        line = f"pac2200-monitoring,{tag} {fields} {ts or ingest_time}"
+        lines.append(line)
+    data = "\n".join(lines)
     try:
         response = requests.post(
             f"{INFLUX_URL}/api/v2/write?bucket={INFLUX_BUCKET}&org={INFLUX_ORG}&precision=s",
@@ -35,12 +30,12 @@ def write_to_influx(source: str, field_data: Dict[str, Any], ts: Optional[int] =
                 "Authorization": f"Token {INFLUX_TOKEN}",
                 "Content-Type": "text/plain"
             },
-            data=line,
+            data=data,
             timeout=10
         )
-        logging.info(f"[{source}] InfluxDB write status: {response.status_code} – {line}")
+        logging.info(f"InfluxDB batch write status: {response.status_code} – {len(lines)} lines")
     except Exception as exc:
-        logging.error(f"[{source}] Error writing to InfluxDB: {exc}")
+        logging.error(f"Error writing batch to InfluxDB: {exc}")
 
 
 def initial_fetch_all_sources() -> None:
@@ -49,6 +44,7 @@ def initial_fetch_all_sources() -> None:
     Fetches data from all endpoints and writes to InfluxDB.
     Updates last_run timestamps to avoid immediate re-polling.
     """
+    measurements = []
     for source, info in ENDPOINTS.items():
         try:
             logging.info(f"[{source}] Initial fetch from {info['url']}")
@@ -60,9 +56,8 @@ def initial_fetch_all_sources() -> None:
             field_data, ts = extract_fields(source, json_data)
 
             if field_data:
-                logging.info(f"[{source}] Extracted {len(field_data)} fields, writing to InfluxDB")
-                write_to_influx(source, field_data, ts=ts)
-                logging.info(f"[{source}] Write complete")
+                logging.info(f"[{source}] Extracted {len(field_data)} fields, added to initial batch")
+                measurements.append((source, field_data, ts))
             else:
                 logging.warning(f"[{source}] No matching fields found in data")
 
@@ -71,3 +66,6 @@ def initial_fetch_all_sources() -> None:
         finally:
             # Also set the timestamp here, so the next poll does not happen immediately
             last_run[source] = time.time()
+    if measurements:
+        write_multiple_to_influx(measurements)
+        logging.info(f"Initial batch write complete: {len(measurements)} sources written.")

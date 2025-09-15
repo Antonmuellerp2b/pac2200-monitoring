@@ -7,6 +7,7 @@ import requests
 from config import POLL_INTERVAL_SECONDS
 from pac2200_client import extract_fields
 from state import last_run
+from influx_writer import write_multiple_to_influx
 
 def polling_loop() -> None:
     """
@@ -14,10 +15,10 @@ def polling_loop() -> None:
     Periodically fetches data from each endpoint according to its interval,
     writes results to InfluxDB, and handles errors and graceful shutdown.
     """
-    from influx_writer import write_to_influx
     try:
         while True:
             now = time.time()
+            measurements = []
             for source, info in ENDPOINTS.items():
                 interval = info["interval"]
                 if now - last_run[source] >= interval:
@@ -31,9 +32,8 @@ def polling_loop() -> None:
                         field_data, ts = extract_fields(source, json_data)
 
                         if field_data:
-                            logging.info(f"[{source}] Extracted {len(field_data)} fields, writing to InfluxDB")
-                            write_to_influx(source, field_data, ts=ts)
-                            logging.info(f"[{source}] Write complete")
+                            measurements.append((source, field_data, ts))
+                            logging.info(f"[{source}] Extracted {len(field_data)} fields, added to batch")
                         else:
                             logging.warning(f"[{source}] No matching fields found in data")
 
@@ -43,7 +43,8 @@ def polling_loop() -> None:
                     finally:
                         last_run[source] = now
                         logging.info(f"[{source}] Next fetch earliest after {interval} seconds")
-
+            if measurements:
+                write_multiple_to_influx(measurements)
             time.sleep(POLL_INTERVAL_SECONDS)
     except KeyboardInterrupt:
         logging.info("Polling loop interrupted by user. Exiting cleanly.")
