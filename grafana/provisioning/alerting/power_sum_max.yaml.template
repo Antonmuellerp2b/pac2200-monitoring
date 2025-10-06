@@ -24,8 +24,7 @@ groups:
                     from(bucket: "{{INFLUXDB_BUCKET}}")
                       |> range(start: -5m)
                       |> filter(fn: (r) =>
-                        r._measurement == "pac2200-monitoring" and
-                        r.source == "INST" and
+                        r._measurement == "pac2200" and
                         contains(value: r._field, set: ["P_SUM"])
                       )
                 refId: Influx_Data

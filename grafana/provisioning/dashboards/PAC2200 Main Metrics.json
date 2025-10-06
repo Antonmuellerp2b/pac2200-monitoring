@@ -68,7 +68,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -100,10 +101,10 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200-monitoring\" and\n    r.source == \"COUNTER\" and\n    contains(value: r._field, set: [\"ACT_ENERGY_IMPORT_T1_TOTAL\"])\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200_counter\" and\n    contains(value: r._field, set: [\"ACT_ENERGY_IMPORT_T1_TOTAL\"])\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(COUNTER)\"})",
           "refId": "A"
         }
       ],
@@ -155,7 +156,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -187,10 +189,10 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200-monitoring\" and\n    r.source == \"INST\" and\n    contains(value: r._field, set: [\"P_SUM\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200\" and\n    contains(value: r._field, set: [\"P_SUM\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(INST)\"})",
           "refId": "A"
         }
       ],
@@ -242,7 +244,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -274,14 +277,14 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "fem20lv09rcaod"
           },
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200-monitoring\" and\n    r.source == \"INST\" and\n    contains(value: r._field, set: [\"V_L1\", \"V_L2\", \"V_L3\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200\" and\n    contains(value: r._field, set: [\"V_L1\", \"V_L2\", \"V_L3\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(INST)\"})",
           "refId": "A"
         }
       ],
@@ -333,7 +336,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "red",
@@ -365,14 +369,14 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "12.0.1",
+      "pluginVersion": "12.1.1",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "fem20lv09rcaod"
           },
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200-monitoring\" and\n    r.source == \"INST\" and\n    contains(value: r._field, set: [\"I_L1\", \"I_L2\", \"I_L3\"])\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"pac2200\" and\n    contains(value: r._field, set: [\"I_L1\", \"I_L2\", \"I_L3\"])\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(INST)\"})",
           "refId": "A"
         }
       ],
@@ -395,5 +399,5 @@
   "timezone": "Europe/Berlin",
   "title": "PAC2200 Main Metrics",
   "uid": "6h5e0df7-e965-43b4-8786-bcf478d248c9",
-  "version": 1
+  "version": 7
 }

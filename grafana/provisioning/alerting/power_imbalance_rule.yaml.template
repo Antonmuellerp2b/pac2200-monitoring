@@ -22,8 +22,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200-monitoring" and
-                    r.source == "AVG2" and
+                    r._measurement == "pac2200_avg2" and
                     r._field == "P_L1"
                   )
                   |> last()
@@ -37,8 +36,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200-monitoring" and
-                    r.source == "AVG2" and
+                    r._measurement == "pac2200_avg2" and
                     r._field == "P_L2"
                   )
                   |> last()
@@ -52,8 +50,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200-monitoring" and
-                    r.source == "AVG2" and
+                    r._measurement == "pac2200_avg2" and
                     r._field == "P_L3"
                   )
                   |> last()
