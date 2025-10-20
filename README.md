@@ -29,7 +29,9 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 - Set ALERT_EMAIL_RECIPIENT
 - Set SITE_ID (to determine which site the alert is being fired from)
 - Change all other login credentials in .env
-- Change PAC2200 IP adress
+- Change PAC2200 IP address
+- CLOUD USAGE: Create a new bucket on your Influx Cloud instance and update
+CLOUD_INFLUX_BUCKET=pac2200_LOCATION in your .env file to the actual bucket name for that site.
 
 ## ▶️ Starting the project
 
