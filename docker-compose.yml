@@ -61,6 +61,8 @@ services:
       - influxdb
     volumes:
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    env_file:
+      - .env
     environment:
       - HOSTNAME=telegraf
       - INFLUX_TOKEN=${INFLUXDB_TOKEN}
