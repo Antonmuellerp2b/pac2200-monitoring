@@ -28,7 +28,7 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 - For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
 - Set ALERT_EMAIL_RECIPIENT
 - Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
-- Set PAC2200 IP address (to your local PAC2200)
+- Set METER_URL to your local electric meter, e.g. PAC2200
 - Change all other login credentials in .env
 
 ## ▶️ Starting the project

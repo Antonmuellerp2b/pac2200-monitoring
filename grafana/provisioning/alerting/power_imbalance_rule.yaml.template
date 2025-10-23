@@ -22,8 +22,8 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200_avg2" and
-                    r._field == "P_L1"
+                    r._measurement == "meter_avg2" and
+                    r._field == "active_power_phase_1_stage2"
                   )
                   |> last()
           - refId: B
@@ -36,8 +36,8 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200_avg2" and
-                    r._field == "P_L2"
+                    r._measurement == "meter_avg2" and
+                    r._field == "active_power_phase_2_stage2"
                   )
                   |> last()
           - refId: C
@@ -50,8 +50,8 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "pac2200_avg2" and
-                    r._field == "P_L3"
+                    r._measurement == "meter_avg2" and
+                    r._field == "active_power_phase_3_stage2"
                   )
                   |> last()
           - refId: Phase1
