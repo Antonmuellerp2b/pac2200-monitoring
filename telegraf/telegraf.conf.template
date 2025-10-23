@@ -1,8 +1,8 @@
 [global_tags]
-  location = "SDS1"
+  location = "${SITE_ID}"
 
 [agent]
-  interval = "5"
+  interval = "${POLL_INTERVAL_SECONDS}"
   flush_interval = "5s"
   hostname = "telegraf"
 
@@ -12,7 +12,7 @@
 [[inputs.http]]
   interval = "5s"
   timeout = "10s"
-  urls = ["http://172.16.2.4/data.json?type=INST"]
+  urls = ["${METER_URL}INST"]
   data_format = "json_v2"
 
   [[inputs.http.json_v2]]
@@ -145,7 +145,7 @@
 [[inputs.http]]
   interval = "10s"
   timeout = "10s"
-  urls = ["http://172.16.2.4/data.json?type=AVG1"]
+  urls = ["${METER_URL}AVG1"]
   data_format = "json_v2"
 
   [[inputs.http.json_v2]]
@@ -254,7 +254,7 @@
 [[inputs.http]]
   interval = "900s"
   timeout = "30s"
-  urls = ["http://172.16.2.4/data.json?type=AVG2"]
+  urls = ["${METER_URL}AVG2"]
   data_format = "json_v2"
 
   [[inputs.http.json_v2]]
@@ -363,7 +363,7 @@
 [[inputs.http]]
   interval = "5s"
   timeout = "10s"
-  urls = ["http://172.16.2.4/data.json?type=COUNTER"]
+  urls = ["${METER_URL}COUNTER"]
   data_format = "json_v2"
 
   [[inputs.http.json_v2]]
@@ -394,14 +394,14 @@
 ##################################################
 [[outputs.influxdb_v2]]
   urls = ["http://influxdb:8086"]
-  token = "my-token"
-  organization = "my-org"
-  bucket = "pac2200"
+  token = "${INFLUXDB_TOKEN}"
+  organization = "${INFLUXDB_ORG}"
+  bucket = "${INFLUXDB_BUCKET}"
 
 [[outputs.influxdb_v2]]
-  urls = ["http://172.16.174.132:8086"]
-  token = "cloud-token"
-  organization = "my-org"
-  bucket = "cloud-pac2200"
+  urls = ["http://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
+  token = "${CLOUD_INFLUX_TOKEN}"
+  organization = "${CLOUD_INFLUX_ORG}"
+  bucket = "${CLOUD_INFLUX_BUCKET}"
   flush_interval = "10s"
   timeout = "30s"

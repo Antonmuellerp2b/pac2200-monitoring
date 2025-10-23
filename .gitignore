@@ -11,6 +11,9 @@
 influxdb-config/
 influxdb/
 
+# Telegraf config
+telegraf/telegraf.conf
+
 # Ignore all Grafana files except provisioning and dashboards
 grafana/*
 !grafana/provisioning/
