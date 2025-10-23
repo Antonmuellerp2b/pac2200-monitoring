@@ -27,11 +27,9 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
 - For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
 - Set ALERT_EMAIL_RECIPIENT
-- Set SITE_ID (to determine which site the alert is being fired from)
+- Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
+- Set PAC2200 IP address (to your local PAC2200)
 - Change all other login credentials in .env
-- Change PAC2200 IP address
-- CLOUD USAGE: Create a new bucket on your Influx Cloud instance and update
-CLOUD_INFLUX_BUCKET=pac2200_LOCATION in your .env file to the actual bucket name for that site.
 
 ## ▶️ Starting the project
 
