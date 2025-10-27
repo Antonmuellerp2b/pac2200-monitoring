@@ -47,7 +47,7 @@ powershell -ExecutionPolicy Bypass -File .\windows_up.ps1 -d
 ## After starting up the project, open Grafana in browser
 
 ```bash
-# adress for default port
+# adress for default port (this is set in .env)
 localhost:4300
 ```
 
