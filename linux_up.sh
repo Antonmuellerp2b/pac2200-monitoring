@@ -16,7 +16,7 @@ fi
 ./render_contact_points_yaml.sh
 ./render_power_imbalance_rule.sh
 ./render_power_sum_max_rule.sh
-./render_telegraf_conf.sh
+./render_telegraf.conf.template.sh
 
 # Make Grafana directories writable by everyone
 if [ "$(uname)" = "Linux" ]; then
