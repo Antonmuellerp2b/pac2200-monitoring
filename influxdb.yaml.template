@@ -8,6 +8,7 @@ datasources:
     type: influxdb
     access: proxy
     isDefault: true
+    editable: false
     url: ${INFLUX_URL}
     jsonData:
       version: Flux
@@ -16,3 +17,4 @@ datasources:
       tlsSkipVerify: true
     secureJsonData:
       token: ${INFLUXDB_TOKEN}
+      
