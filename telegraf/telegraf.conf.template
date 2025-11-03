@@ -140,7 +140,7 @@
       rename = "frequency"
 
 ##################################################
-# Average Stage 1 (AVG1)
+# Average Stage 1 (AVG1) - 10s 
 ##################################################
 [[inputs.http]]
   interval = "10s"
@@ -249,7 +249,7 @@
       rename = "frequency_stage1"
 
 ##################################################
-# Average Stage 2 (AVG2)
+# Average Stage 2 (AVG2) - 15m
 ##################################################
 [[inputs.http]]
   interval = "900s"
@@ -358,7 +358,7 @@
       rename = "frequency_stage2"
 
 ##################################################
-# Counter values
+# Counter values - instantaneous values
 ##################################################
 [[inputs.http]]
   interval = "5s"
@@ -392,12 +392,15 @@
 ##################################################
 # Outputs
 ##################################################
+
+# Local InfluxDB
 [[outputs.influxdb_v2]]
   urls = ["${INFLUX_URL}"]
   token = "${INFLUXDB_TOKEN}"
   organization = "${INFLUXDB_ORG}"
   bucket = "${INFLUXDB_BUCKET}"
 
+# Cloud InfluxDB
 [[outputs.influxdb_v2]]
   urls = ["http://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
   token = "${CLOUD_INFLUX_TOKEN}"
@@ -406,7 +409,7 @@
   flush_interval = "10s"
   timeout = "30s"
   namepass = ["meter_inst", "meter_counter"]
-  # Forward only main metrics to cloud
+  # Forward only main metrics to cloud db
   fieldpass = [
     "active_power_total",
     "energy_active_import_total",

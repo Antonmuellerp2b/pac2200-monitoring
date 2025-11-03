@@ -1,7 +1,4 @@
 services:
-  # ======================
-  # InfluxDB v2
-  # ======================
   influxdb:
     image: influxdb:2.7
     container_name: influxdb
@@ -19,9 +16,6 @@ services:
       - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
 
-  # ======================
-  # Grafana
-  # ======================
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -47,23 +41,22 @@ services:
       - GF_UNIFIED_ALERTING_ENABLED=true
       - GF_LOG_LEVEL=debug
 
-
-  # ======================
-  # Telegraf
-  # ======================
-  telegraf:
-    image: telegraf:1.33
-    container_name: telegraf
+  pac2200-monitoring:
+    build: ./app
+    container_name: pac2200-monitoring
     restart: always
     depends_on:
       - influxdb
-    volumes:
-      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    env_file:
-      - .env
     environment:
-      - HOSTNAME=telegraf
+      - INFLUX_URL=${INFLUX_URL}
       - INFLUX_TOKEN=${INFLUXDB_TOKEN}
-      - INFLUX_ORG=${INFLUXDB_ORG}
       - INFLUX_BUCKET=${INFLUXDB_BUCKET}
-      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_ORG=${INFLUXDB_ORG}
+      - PAC2200_URL=${PAC2200_URL}
+      - POLL_INTERVAL_SECONDS=${POLL_INTERVAL_SECONDS}
+      - SITE_ID=${SITE_ID}
+
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: ["python3", "main.py"]

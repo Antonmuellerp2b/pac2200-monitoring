@@ -10,6 +10,8 @@
 # Influx
 influxdb-config/
 influxdb/
+influxdb-init/
+influxdb-init.sh
 
 # Telegraf config
 telegraf/telegraf.conf
