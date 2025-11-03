@@ -1,6 +1,6 @@
 #!/bin/bash
 # linux_up.sh - Universal script to start PAC2200 stack on Linux
-# Handles permissions for Grafana and chooses the correct Docker Compose command.
+# Handles permissions for Grafana
 # Usage: ./linux_up.sh [docker-compose-args...]
 
 set -eu

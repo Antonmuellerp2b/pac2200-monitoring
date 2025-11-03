@@ -2,8 +2,10 @@
 # build_conf.sh
 # erzeugt telegraf.conf aus telegraf.conf.template + .env
 
-# Lade Umgebungsvariablen aus .env
-export $(grep -v '^#' .env | xargs)
+# Variablen aus .env automatisch exportieren
+set -a
+source .env
+set +a
 
 # Template und Ziel
 TEMPLATE="telegraf/telegraf.conf.template"
