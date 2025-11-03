@@ -9,7 +9,7 @@ datasources:
     access: proxy
     isDefault: true
     editable: false
-    url: ${INFLUX_URL}
+    url: "${INFLUXDB_URL}:${INFLUXDB_PORT}"
     jsonData:
       version: Flux
       organization: ${INFLUXDB_ORG}

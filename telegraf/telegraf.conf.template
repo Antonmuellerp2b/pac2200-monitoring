@@ -395,7 +395,7 @@
 
 # Local InfluxDB
 [[outputs.influxdb_v2]]
-  urls = ["${INFLUX_URL}"]
+  urls = ["${INFLUXDB_URL}:${INFLUXDB_PORT}"]
   token = "${INFLUXDB_TOKEN}"
   organization = "${INFLUXDB_ORG}"
   bucket = "${INFLUXDB_BUCKET}"
