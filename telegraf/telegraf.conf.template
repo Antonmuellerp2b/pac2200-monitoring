@@ -405,3 +405,15 @@
   bucket = "${CLOUD_INFLUX_BUCKET}"
   flush_interval = "10s"
   timeout = "30s"
+  namepass = ["meter_inst", "meter_counter"]
+  # Forward only main metrics to cloud
+  fieldpass = [
+    "active_power_total",
+    "energy_active_import_total",
+    "voltage_phase_1",
+    "voltage_phase_2",
+    "voltage_phase_3",
+    "current_phase_1",
+    "current_phase_2",
+    "current_phase_3",
+  ]
