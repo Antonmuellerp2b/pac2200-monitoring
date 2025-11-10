@@ -401,8 +401,9 @@
   bucket = "${INFLUXDB_BUCKET}"
 
 # Cloud InfluxDB
+
 [[outputs.influxdb_v2]]
-  urls = ["http://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
+  urls = ["${CLOUD_INFLUX_PROTOCOL}://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
   token = "${CLOUD_INFLUX_TOKEN}"
   organization = "${CLOUD_INFLUX_ORG}"
   bucket = "${CLOUD_INFLUX_BUCKET}"
