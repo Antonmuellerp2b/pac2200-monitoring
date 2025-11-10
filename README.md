@@ -30,7 +30,7 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 - Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
 - Set METER_URL to your local electric meter, e.g. PAC2200
 - Change all other login credentials in .env
-- For cloud usage, set CLOUD_INFLUX_HOST to your cloud IP
+- For cloud usage, set CLOUD_INFLUX_HOST to your cloud IP and set other cloud credentials
 
 ## ▶️ Starting the project
 
