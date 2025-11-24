@@ -168,6 +168,18 @@
       type = "float"
       rename = "voltage_phase_3_stage1"
     [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L12.value"
+      type = "float"
+      rename = "voltage_line_12_stage1"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L23.value"
+      type = "float"
+      rename = "voltage_line_23_stage1"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L31.value"
+      type = "float"
+      rename = "voltage_line_31_stage1"
+    [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE1.I_L1.value"
       type = "float"
       rename = "current_phase_1_stage1"
@@ -276,6 +288,18 @@
       path = "AVERAGE_VALUES.STAGE2.V_L3.value"
       type = "float"
       rename = "voltage_phase_3_stage2"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L12.value"
+      type = "float"
+      rename = "voltage_line_12_stage2"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L23.value"
+      type = "float"
+      rename = "voltage_line_23_stage2"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L31.value"
+      type = "float"
+      rename = "voltage_line_31_stage2"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.I_L1.value"
       type = "float"
