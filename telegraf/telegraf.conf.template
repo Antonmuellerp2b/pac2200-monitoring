@@ -2,7 +2,7 @@
   location = "${SITE_ID}"
 
 [agent]
-  interval = "${POLL_INTERVAL_SECONDS}"
+  interval = "${POLL_INTERVAL_INST}"
   flush_interval = "5s"
   hostname = "telegraf"
 
@@ -10,7 +10,7 @@
 # Instantaneous values (INST)
 ##################################################
 [[inputs.http]]
-  interval = "5s"
+  interval = "${POLL_INTERVAL_INST}"
   timeout = "10s"
   urls = ["${METER_URL}INST"]
   data_format = "json_v2"
@@ -407,7 +407,7 @@
   token = "${CLOUD_INFLUX_TOKEN}"
   organization = "${CLOUD_INFLUX_ORG}"
   bucket = "${CLOUD_INFLUX_BUCKET}"
-  flush_interval = "10s"
+  flush_interval = "${CLOUD_FLUSH_INTERVAL}"
   timeout = "30s"
   namepass = ["meter_inst", "meter_counter"]
   # Forward only main metrics to cloud db
