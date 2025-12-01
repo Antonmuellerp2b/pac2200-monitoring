@@ -46,7 +46,7 @@ services:
       - GF_SMTP_SKIP_VERIFY=true
       - GF_UNIFIED_ALERTING_ENABLED=true
       - GF_LOG_LEVEL=debug
-
+      - GF_SECURITY_ALLOW_EMBEDDING=true
 
   # ======================
   # Telegraf
