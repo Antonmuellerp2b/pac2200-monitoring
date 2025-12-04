@@ -11,9 +11,8 @@ set -eu
 ./render_power_sum_max_rule.sh
 ./render_telegraf.conf.template.sh
 
-# Export UID/GID for non-root Grafana
-export MY_UID=$(id -u)
-export MY_GID=$(id -g)
+export MY_UID=$(id -u)   # stores the current user's UID in MY_UID
+export MY_GID=$(id -g)   # stores the current user's GID in MY_GID
 
 # Start Docker Compose
 exec docker compose up "$@"
