@@ -8,7 +8,7 @@ set -eu
 # Set permissions for Grafana directory to current user
 if [ "$(uname)" = "Linux" ]; then
     echo "Setting Grafana directories ownership to $USER"
-    sudo chown -R "$USER":"$USER" ./grafana
+    chown -R "$USER":"$USER" ./grafana
 fi
 
 # Render all required YAML files from templates
