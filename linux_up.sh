@@ -1,16 +1,19 @@
 #!/bin/bash
-# linux_up.sh - Universal script to start PAC2200 stack on Linux
-# Handles permissions for Grafana
-# Usage: ./linux_up.sh [docker-compose-args...]
+# linux_up.sh - Start PAC2200 stack on Linux as non-root user
+# Usage: ./linux_up.sh [docker-compose args]
 
 set -eu
 
-# Render all required YAML files from templates
+# Render all required YAML/config files
 ./render_influxdb_yaml.sh
 ./render_contact_points_yaml.sh
 ./render_power_imbalance_rule.sh
 ./render_power_sum_max_rule.sh
 ./render_telegraf.conf.template.sh
 
-# Start docker compose
+# Export UID/GID for non-root Grafana
+export UID=$(id -u)
+export GID=$(id -g)
+
+# Start Docker Compose
 exec docker compose up "$@"
