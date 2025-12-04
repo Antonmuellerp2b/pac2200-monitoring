@@ -12,8 +12,8 @@ set -eu
 ./render_telegraf.conf.template.sh
 
 # Export UID/GID for non-root Grafana
-export UID=$(id -u)
-export GID=$(id -g)
+export MY_UID=$(id -u)
+export MY_GID=$(id -g)
 
 # Start Docker Compose
 exec docker compose up "$@"

@@ -47,7 +47,7 @@ services:
       - GF_UNIFIED_ALERTING_ENABLED=true
       - GF_LOG_LEVEL=debug
       - GF_SECURITY_ALLOW_EMBEDDING=true
-    user: "${UID}:${GID}"
+    user: "${MY_UID}:${MY_GID}"
 
   # ======================
   # Telegraf
