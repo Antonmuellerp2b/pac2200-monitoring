@@ -18,7 +18,7 @@ set -eu
 ./render_power_sum_max_rule.sh
 
 # Render telegraf.conf from template using .env
-./render_telegraf.conf.template.sh
+# ./render_telegraf.conf.template.sh
 
 # Start docker compose with any arguments passed to this script
 exec docker compose up "$@"
