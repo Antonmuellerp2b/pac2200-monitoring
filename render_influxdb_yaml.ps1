@@ -42,4 +42,3 @@ $templateReplaced = [regex]::Replace($template, '\$\{?(\w+)\}?', {
 
 $templateReplaced | Set-Content -Encoding UTF8 $outputPath
 
-Write-Host "Rendered $outputPath from $templatePath using .env variables."

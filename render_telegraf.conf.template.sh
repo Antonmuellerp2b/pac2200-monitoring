@@ -1,17 +1,15 @@
 #!/bin/bash
 # build_conf.sh
-# erzeugt telegraf.conf aus telegraf.conf.template + .env
+# creates telegraf.conf from telegraf.conf.template using environment variables from .env file
 
-# Variablen aus .env automatisch exportieren
+# export all variables from .env
 set -a
 source .env
 set +a
 
-# Template und Ziel
+# template and target files
 TEMPLATE="telegraf/telegraf.conf.template"
 TARGET="telegraf/telegraf.conf"
 
-# Ersetze Variablen
+# replace placeholders in template with environment variables
 envsubst < "$TEMPLATE" > "$TARGET"
-
-echo "Fertige telegraf.conf wurde erstellt: $TARGET"

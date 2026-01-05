@@ -36,10 +36,9 @@ if (-not $siteId) {
     exit 1
 }
 
-# Hier: nur Kommentare aus der Template-Datei herausfiltern
+# here: only filter out comment lines starting with #
 (Get-Content $template | Where-Object { $_ -notmatch '^\s*#' }) `
     -replace "{{ALERT_EMAIL_RECIPIENT}}", $recipient `
     -replace "{{SITE_ID}}", $siteId `
     | Set-Content $output
 
-Write-Host "Rendered $output with ALERT_EMAIL_RECIPIENT=$recipient and SITE_ID=$siteId"
