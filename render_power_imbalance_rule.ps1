@@ -41,5 +41,3 @@ if (-not $bucket) { Write-Error "INFLUXDB_BUCKET not set in .env!"; exit 1 }
     -replace "{{DATASOURCE_UID}}", $datasource `
     -replace "{{INFLUXDB_BUCKET}}", $bucket `
     | Set-Content $output
-
-Write-Host "Rendered $output with PHASE_IMBALANCE_RATIO_THRESHOLD=$PHASE_IMBALANCE_RATIO_THRESHOLD, PHASE_IMBALANCE_MIN_KW=$minPhase, DATASOURCE_UID=$datasource, INFLUXDB_BUCKET=$bucket"

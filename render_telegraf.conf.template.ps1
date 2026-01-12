@@ -39,7 +39,6 @@ $content = [regex]::Replace($content, '\$\{(\w+)\}', {
 
 # Write the rendered file
 Set-Content -Path $target -Value $content -Encoding UTF8
-Write-Host "Rendered telegraf.conf written to $target"
 
 if ($missingVars.Count -gt 0) {
     $missingVars = $missingVars | Sort-Object -Unique

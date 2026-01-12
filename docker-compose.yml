@@ -46,7 +46,7 @@ services:
       - GF_SMTP_FROM_NAME=Grafana
       - GF_SMTP_SKIP_VERIFY=true
       - GF_UNIFIED_ALERTING_ENABLED=true
-      - GF_LOG_LEVEL=debug
+      - GF_LOG_LEVEL=info
       - GF_SECURITY_ALLOW_EMBEDDING=true
     logging:
       driver: "json-file"
