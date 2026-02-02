@@ -1,3 +1,11 @@
+##################################################
+# Telegraf Template: Janitza UMG96PA Modbus Input
+# - Instantaneous Values (INST)
+# - Energy Counters
+# - Power, Apparent Power, Reactive Power
+# - Automatic kW / kVA / kVAr / kWh Umrechnung
+##################################################
+
 [global_tags]
   location = "${SITE_ID}"
 
@@ -7,298 +15,152 @@
   hostname = "telegraf"
 
 ##################################################
-# Instantaneous values (INST) - Janitza via Modbus
+# Instantaneous Values (INST)
 ##################################################
 [[inputs.modbus]]
-  name = "janitza_inst"
-  controller = "tcp://172.20.1.42:502"
+  name = "janitza_umg96pa"
+  name_override = "meter_inst"
   slave_id = 1
   timeout = "5s"
+  controller = "tcp://172.20.1.42:502"
+  configuration_type = "request"
 
-  # Voltage
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_phase_1"
-    measurement = "meter_inst"
-    address = [19000, 19001]
-    data_type = "FLOAT32"
+  [[inputs.modbus.request]]
+    slave_id = 1
     byte_order = "ABCD"
-    scale = 1.0
+    register = "holding"
+    fields = [
+      # Active energy import (Wh)
+      { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
+      { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
+      { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
+      { address = 19060, name = "energy_active_import_total",   type = "FLOAT32" },
 
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_phase_2"
-    measurement = "meter_inst"
-    address = [19002, 19003]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Voltage L-N
+      { address = 19000, name = "voltage_phase_1", type = "FLOAT32" },
+      { address = 19002, name = "voltage_phase_2", type = "FLOAT32" },
+      { address = 19004, name = "voltage_phase_3", type = "FLOAT32" },
 
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_phase_3"
-    measurement = "meter_inst"
-    address = [19004, 19005]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Voltage L-L
+      { address = 19006, name = "voltage_line_12", type = "FLOAT32" },
+      { address = 19008, name = "voltage_line_23", type = "FLOAT32" },
+      { address = 19010, name = "voltage_line_31", type = "FLOAT32" },
 
-# Voltage Line-To-Line
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_line_12"
-    measurement = "meter_inst"
-    address = [19006, 19007]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Current
+      { address = 19012, name = "current_phase_1", type = "FLOAT32" },
+      { address = 19014, name = "current_phase_2", type = "FLOAT32" },
+      { address = 19016, name = "current_phase_3", type = "FLOAT32" },
+      { address = 19018, name = "current_total", type = "FLOAT32" },
 
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_line_23"
-    measurement = "meter_inst"
-    address = [19008, 19009]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Active Power (W -> kW)
+      { address = 19020, name = "active_power_phase_1", type = "FLOAT32" },
+      { address = 19022, name = "active_power_phase_2", type = "FLOAT32" },
+      { address = 19024, name = "active_power_phase_3", type = "FLOAT32" },
+      { address = 19026, name = "active_power_total", type = "FLOAT32" },
 
-  [[inputs.modbus.holding_registers]]
-    name = "voltage_line_31"
-    measurement = "meter_inst"
-    address = [19010, 19011]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Apparent Power (VA -> kVA)
+      { address = 19028, name = "apparent_power_phase_1", type = "FLOAT32" },
+      { address = 19030, name = "apparent_power_phase_2", type = "FLOAT32" },
+      { address = 19032, name = "apparent_power_phase_3", type = "FLOAT32" },
+      { address = 19034, name = "apparent_power_total", type = "FLOAT32" },
 
-  # Current
-  [[inputs.modbus.holding_registers]]
-    name = "current_phase_1"
-    measurement = "meter_inst"
-    address = [19006, 19007]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Reactive Power (var -> kVAr)
+      { address = 19036, name = "reactive_power_q1_phase_1", type = "FLOAT32" },
+      { address = 19038, name = "reactive_power_q1_phase_2", type = "FLOAT32" },
+      { address = 19040, name = "reactive_power_q1_phase_3", type = "FLOAT32" },
+      { address = 19042, name = "reactive_power_q1_total", type = "FLOAT32" },
 
-  [[inputs.modbus.holding_registers]]
-    name = "current_phase_2"
-    measurement = "meter_inst"
-    address = [19008, 19009]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Powerfactor per Phase
+      { address = 19044, name = "power_factor_phase_1", type = "FLOAT32" },
+      { address = 19046, name = "power_factor_phase_2", type = "FLOAT32" },
+      { address = 19048, name = "power_factor_phase_3", type = "FLOAT32" },    
 
-  [[inputs.modbus.holding_registers]]
-    name = "current_phase_3"
-    measurement = "meter_inst"
-    address = [19010, 19011]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  # Active Power
-  [[inputs.modbus.holding_registers]]
-    name = "active_power_phase_1"
-    measurement = "meter_inst"
-    address = [19012, 19013]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "active_power_phase_2"
-    measurement = "meter_inst"
-    address = [19014, 19015]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "active_power_phase_3"
-    measurement = "meter_inst"
-    address = [19016, 19017]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "active_power_total"
-    measurement = "meter_inst"
-    address = [19018, 19019]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  # Apparent Power
-  [[inputs.modbus.holding_registers]]
-    name = "apparent_power_phase_1"
-    measurement = "meter_inst"
-    address = [19020, 19021]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "apparent_power_phase_2"
-    measurement = "meter_inst"
-    address = [19022, 19023]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "apparent_power_phase_3"
-    measurement = "meter_inst"
-    address = [19024, 19025]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "apparent_power_total"
-    measurement = "meter_inst"
-    address = [19026, 19027]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  # Reactive Power Q1
-  [[inputs.modbus.holding_registers]]
-    name = "reactive_power_q1_phase_1"
-    measurement = "meter_inst"
-    address = [19028, 19029]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "reactive_power_q1_phase_2"
-    measurement = "meter_inst"
-    address = [19030, 19031]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "reactive_power_q1_phase_3"
-    measurement = "meter_inst"
-    address = [19032, 19033]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "reactive_power_q1_total"
-    measurement = "meter_inst"
-    address = [19034, 19035]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  # Power Factor
-  [[inputs.modbus.holding_registers]]
-    name = "power_factor_phase_1"
-    measurement = "meter_inst"
-    address = [19036, 19037]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "power_factor_phase_2"
-    measurement = "meter_inst"
-    address = [19038, 19039]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "power_factor_phase_3"
-    measurement = "meter_inst"
-    address = [19040, 19041]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "power_factor_total"
-    measurement = "meter_inst"
-    address = [19042, 19043]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  # Frequency
-  [[inputs.modbus.holding_registers]]
-    name = "frequency"
-    measurement = "meter_inst"
-    address = [19044, 19045]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+      # Frequency
+      { address = 19050, name = "frequency", type = "FLOAT32" }
+    ]
 
 ##################################################
-# Average Stage 1 (AVG1) - optional, nur wenn Janitza das liefert
-##################################################
-# Gleiches Schema, nur measurement = "meter_avg1" und Feldnamen _stage1 suffix
-
-##################################################
-# Average Stage 2 (AVG2) - optional, nur wenn Janitza das liefert
-##################################################
-# Gleiches Schema, nur measurement = "meter_avg2" und Feldnamen _stage2 suffix
-
-##################################################
-# Counter values - falls nötig
+# Energy Counters (Wh -> kWh)
 ##################################################
 [[inputs.modbus]]
-  name = "janitza_counter"
-  controller = "tcp://172.20.1.42:502"
+  name = "janitza_umg96pa"
+  name_override = "meter_counter"
   slave_id = 1
   timeout = "5s"
+  controller = "tcp://172.20.1.42:502"
+  configuration_type = "request"
 
-  # Active Energy Import
-  [[inputs.modbus.holding_registers]]
-    name = "energy_active_import_phase_1"
-    measurement = "meter_counter"
-    address = [19046, 19047]
-    data_type = "FLOAT32"
+  [[inputs.modbus.request]]
+    slave_id = 1
     byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "energy_active_import_phase_2"
-    measurement = "meter_counter"
-    address = [19048, 19049]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "energy_active_import_phase_3"
-    measurement = "meter_counter"
-    address = [19050, 19051]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
-
-  [[inputs.modbus.holding_registers]]
-    name = "energy_active_import_total"
-    measurement = "meter_counter"
-    address = [19052, 19053]
-    data_type = "FLOAT32"
-    byte_order = "ABCD"
-    scale = 1.0
+    register = "holding"
+    fields = [
+      { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
+      { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
+      { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
+      { address = 19060, name = "energy_active_import_total",   type = "FLOAT32" },
+    ]
 
 ##################################################
-# Outputs
+# Processors: Umrechnungen und Powerfactor
 ##################################################
-# Local InfluxDB
+# Gesamt-Powerfactor berechnen
+[[processors.starlark]]
+  source = '''
+def apply(metric):
+    if "active_power_total" in metric.fields and "apparent_power_total" in metric.fields:
+        S = metric.fields["apparent_power_total"]
+        P = metric.fields["active_power_total"]
+        if S != 0:
+            metric.fields["power_factor_total"] = P / S
+    return metric
+'''
+
+# Active Power W -> kW
+[[processors.starlark]]
+  source = '''
+def apply(metric):
+    for f in ["active_power_phase_1","active_power_phase_2","active_power_phase_3","active_power_total"]:
+        if f in metric.fields:
+            metric.fields[f] /= 1000.0
+    return metric
+'''
+
+# Apparent Power VA -> kVA
+[[processors.starlark]]
+  source = '''
+def apply(metric):
+    for f in ["apparent_power_phase_1","apparent_power_phase_2","apparent_power_phase_3","apparent_power_total"]:
+        if f in metric.fields:
+            metric.fields[f] /= 1000.0
+    return metric
+'''
+
+# Reactive Power var -> kVAr
+[[processors.starlark]]
+  source = '''
+def apply(metric):
+    for f in ["reactive_power_q1_phase_1","reactive_power_q1_phase_2","reactive_power_q1_phase_3","reactive_power_q1_total"]:
+        if f in metric.fields:
+            metric.fields[f] /= 1000.0
+    return metric
+'''
+
+# Energy Wh -> kWh
+[[processors.starlark]]
+  source = '''
+def apply(metric):
+    for f in ["energy_active_import_phase_1","energy_active_import_phase_2","energy_active_import_phase_3","energy_active_import_total"]:
+        if f in metric.fields:
+            metric.fields[f] /= 1000.0
+    return metric
+'''
+
+##################################################
+# Output to InfluxDB
+##################################################
 [[outputs.influxdb_v2]]
   urls = ["${INFLUXDB_URL}:${INFLUXDB_PORT}"]
   token = "${INFLUXDB_TOKEN}"
   organization = "${INFLUXDB_ORG}"
   bucket = "${INFLUXDB_BUCKET}"
-
-# Cloud InfluxDB
-[[outputs.influxdb_v2]]
-  urls = ["${CLOUD_INFLUX_PROTOCOL}://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
-  token = "${CLOUD_INFLUX_TOKEN}"
-  organization = "${CLOUD_INFLUX_ORG}"
-  bucket = "${CLOUD_INFLUX_BUCKET}"
-  flush_interval = "${CLOUD_FLUSH_INTERVAL}"
-  timeout = "30s"
-  namepass = ["meter_inst", "meter_counter", "meter_avg1", "meter_avg2"]
