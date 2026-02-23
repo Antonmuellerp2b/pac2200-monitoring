@@ -366,7 +366,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and r._field == \"power_factor_total_stage1\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and r._field == \"power_factor_total_10sec_avg\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -634,7 +634,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and contains(value: r._field, set: [\"power_factor_phase_1_stage1\", \"power_factor_phase_2_stage1\", \"power_factor_phase_3_stage1\"]))\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and contains(value: r._field, set: [\"power_factor_phase_1_10sec_avg\", \"power_factor_phase_2_10sec_avg\", \"power_factor_phase_3_10sec_avg\"]))\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -905,7 +905,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and r._field == \"reactive_power_q1_total_stage1\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"meter_avg1\" and r._field == \"reactive_power_q1_total_10sec_avg\")\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\n  |> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -1176,7 +1176,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"reactive_power_q1_phase_1_stage1\", \"reactive_power_q1_phase_2_stage1\", \"reactive_power_q1_phase_3_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"reactive_power_q1_phase_1_10sec_avg\", \"reactive_power_q1_phase_2_10sec_avg\", \"reactive_power_q1_phase_3_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -1463,7 +1463,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    r._field == \"apparent_power_total_stage1\"\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    r._field == \"apparent_power_total_10sec_avg\"\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -1734,7 +1734,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"apparent_power_phase_1_stage1\", \"apparent_power_phase_2_stage1\", \"apparent_power_phase_3_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"apparent_power_phase_1_10sec_avg\", \"apparent_power_phase_2_10sec_avg\", \"apparent_power_phase_3_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -2005,7 +2005,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    r._field == \"frequency_stage1\"\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    r._field == \"frequency_10sec_avg\"\n  )\n  \n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -2277,7 +2277,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"voltage_line_12_stage1\", \"voltage_line_23_stage1\", \"voltage_line_31_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"voltage_line_12_10sec_avg\", \"voltage_line_23_10sec_avg\", \"voltage_line_31_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -2549,7 +2549,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"active_power_total_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"active_power_total_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -2820,7 +2820,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"active_power_phase_1_stage1\", \"active_power_phase_2_stage1\", \"active_power_phase_3_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"active_power_phase_1_10sec_avg\", \"active_power_phase_2_10sec_avg\", \"active_power_phase_3_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -3099,7 +3099,7 @@
             "type": "influxdb",
             "uid": "fem20lv09rcaod"
           },
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"voltage_phase_1_stage1\", \"voltage_phase_2_stage1\", \"voltage_phase_3_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"voltage_phase_1_10sec_avg\", \"voltage_phase_2_10sec_avg\", \"voltage_phase_3_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
@@ -3382,7 +3382,7 @@
             "type": "influxdb",
             "uid": "fem20lv09rcaod"
           },
-          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"current_phase_1_stage1\", \"current_phase_2_stage1\", \"current_phase_3_stage1\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
+          "query": "from(bucket: \"pac2200\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._measurement == \"meter_avg1\" and\n    contains(value: r._field, set: [\"current_phase_1_10sec_avg\", \"current_phase_2_10sec_avg\", \"current_phase_3_10sec_avg\"])\n  )\n\n  |> aggregateWindow(every: v.windowPeriod, fn: last, createEmpty: false)\n|> keep(columns: [\"_time\", \"_value\", \"_field\"])\n|> rename(columns: {_field: \"phase\", _value: \"(AVG1)\"})",
           "refId": "A"
         }
       ],
