@@ -275,111 +275,111 @@
     timestamp_format = "RFC3339"
     timestamp_timezone = "Europe/Berlin"
 
-    # Fields like Stage1, with "_stage2" suffix
+    # Fields like Stage1, with "_15min_avg" suffix
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L1.value"
       type = "float"
-      rename = "voltage_phase_1_stage2"
+      rename = "voltage_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L2.value"
       type = "float"
-      rename = "voltage_phase_2_stage2"
+      rename = "voltage_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L3.value"
       type = "float"
-      rename = "voltage_phase_3_stage2"
+      rename = "voltage_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L12.value"
       type = "float"
-      rename = "voltage_line_12_stage2"
+      rename = "voltage_line_12_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L23.value"
       type = "float"
-      rename = "voltage_line_23_stage2"
+      rename = "voltage_line_23_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.V_L31.value"
       type = "float"
-      rename = "voltage_line_31_stage2"
+      rename = "voltage_line_31_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.I_L1.value"
       type = "float"
-      rename = "current_phase_1_stage2"
+      rename = "current_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.I_L2.value"
       type = "float"
-      rename = "current_phase_2_stage2"
+      rename = "current_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.I_L3.value"
       type = "float"
-      rename = "current_phase_3_stage2"
+      rename = "current_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.P_L1.value"
       type = "float"
-      rename = "active_power_phase_1_stage2"
+      rename = "active_power_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.P_L2.value"
       type = "float"
-      rename = "active_power_phase_2_stage2"
+      rename = "active_power_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.P_L3.value"
       type = "float"
-      rename = "active_power_phase_3_stage2"
+      rename = "active_power_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.P_SUM.value"
       type = "float"
-      rename = "active_power_total_stage2"
+      rename = "active_power_total_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VA_L1.value"
       type = "float"
-      rename = "apparent_power_phase_1_stage2"
+      rename = "apparent_power_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VA_L2.value"
       type = "float"
-      rename = "apparent_power_phase_2_stage2"
+      rename = "apparent_power_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VA_L3.value"
       type = "float"
-      rename = "apparent_power_phase_3_stage2"
+      rename = "apparent_power_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VA_SUM.value"
       type = "float"
-      rename = "apparent_power_total_stage2"
+      rename = "apparent_power_total_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VARQ1_L1.value"
       type = "float"
-      rename = "reactive_power_q1_phase_1_stage2"
+      rename = "reactive_power_q1_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VARQ1_L2.value"
       type = "float"
-      rename = "reactive_power_q1_phase_2_stage2"
+      rename = "reactive_power_q1_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VARQ1_L3.value"
       type = "float"
-      rename = "reactive_power_q1_phase_3_stage2"
+      rename = "reactive_power_q1_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.VARQ1_SUM.value"
       type = "float"
-      rename = "reactive_power_q1_total_stage2"
+      rename = "reactive_power_q1_total_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.PF_L1.value"
       type = "float"
-      rename = "power_factor_phase_1_stage2"
+      rename = "power_factor_phase_1_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.PF_L2.value"
       type = "float"
-      rename = "power_factor_phase_2_stage2"
+      rename = "power_factor_phase_2_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.PF_L3.value"
       type = "float"
-      rename = "power_factor_phase_3_stage2"
+      rename = "power_factor_phase_3_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.PF_SUM.value"
       type = "float"
-      rename = "power_factor_total_stage2"
+      rename = "power_factor_total_15min_avg"
     [[inputs.http.json_v2.field]]
       path = "AVERAGE_VALUES.STAGE2.FREQ.value"
       type = "float"
-      rename = "frequency_stage2"
+      rename = "frequency_15min_avg"
 
 ##################################################
 # Counter values - instantaneous values

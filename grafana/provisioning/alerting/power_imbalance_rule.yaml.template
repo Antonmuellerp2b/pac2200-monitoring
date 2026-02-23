@@ -23,7 +23,7 @@ groups:
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "meter_avg2" and
-                    r._field == "active_power_phase_1_stage2"
+                    r._field == "active_power_phase_1_15min_avg"
                   )
                   |> last()
           - refId: B
@@ -37,7 +37,7 @@ groups:
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "meter_avg2" and
-                    r._field == "active_power_phase_2_stage2"
+                    r._field == "active_power_phase_2_15min_avg"
                   )
                   |> last()
           - refId: C
@@ -51,7 +51,7 @@ groups:
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
                     r._measurement == "meter_avg2" and
-                    r._field == "active_power_phase_3_stage2"
+                    r._field == "active_power_phase_3_15min_avg"
                   )
                   |> last()
           - refId: Phase1
