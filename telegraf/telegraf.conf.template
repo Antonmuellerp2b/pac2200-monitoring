@@ -1,5 +1,5 @@
 ##################################################
-# Telegraf Template: Janitza UMG96PA Modbus Input
+# Janitza UMG96PA Modbus Input Configuration
 ##################################################
 
 [global_tags]
