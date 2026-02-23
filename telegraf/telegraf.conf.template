@@ -177,3 +177,25 @@ def apply(metric):
   token = "${INFLUXDB_TOKEN}"
   organization = "${INFLUXDB_ORG}"
   bucket = "${INFLUXDB_BUCKET}"
+
+# Cloud InfluxDB
+
+[[outputs.influxdb_v2]]
+  urls = ["${CLOUD_INFLUX_PROTOCOL}://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
+  token = "${CLOUD_INFLUX_TOKEN}"
+  organization = "${CLOUD_INFLUX_ORG}"
+  bucket = "${CLOUD_INFLUX_BUCKET}"
+  flush_interval = "${CLOUD_FLUSH_INTERVAL}"
+  timeout = "30s"
+  namepass = ["meter_inst", "meter_counter"]
+  # Forward only main metrics to cloud db
+  fieldpass = [
+    "active_power_total",
+    "energy_active_import_total",
+    "voltage_phase_1",
+    "voltage_phase_2",
+    "voltage_phase_3",
+    "current_phase_1",
+    "current_phase_2",
+    "current_phase_3",
+  ]
