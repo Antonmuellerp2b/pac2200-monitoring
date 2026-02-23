@@ -215,7 +215,8 @@ def apply(metric):
 '''
 
 ##################################################
-# Aggregator: 10s average (AVG1) - values are aggregated by telegraf
+# Aggregator: 10s average (AVG1) - values are aggregated by telegraf. 
+# 10s averages are shifted by 5s due to 5s source intervals
 ##################################################
 
 [[aggregators.basicstats]]
