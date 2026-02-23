@@ -11,7 +11,7 @@
   hostname = "telegraf"
 
 ##################################################
-# Instantaneous Values (INST)
+# Instantaneous Values (INST) - read from Janitza modbus register
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
@@ -76,7 +76,7 @@
     ]
 
 ##################################################
-# Energy Counters
+# Energy Counters - read from Janitza modbus register
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
@@ -98,7 +98,7 @@
     ]
 
 ##################################################
-# 15-minute average values (AVG2)
+# 15-minute average values (AVG2) - read from Janitza modbus register
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
@@ -158,7 +158,7 @@
     ]
 
 ##################################################
-# Processors: Powerfactor & Unit Conversions
+# Processors: Powerfactor & Unit Conversions to fit with Grafana dashboards
 ##################################################
 [[processors.starlark]]
   source = '''
@@ -215,7 +215,7 @@ def apply(metric):
 '''
 
 ##################################################
-# Aggregator: 10s average
+# Aggregator: 10s average (AVG1) - values are aggregated by telegraf
 ##################################################
 
 [[aggregators.basicstats]]
