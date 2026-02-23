@@ -1,9 +1,5 @@
 ##################################################
 # Telegraf Template: Janitza UMG96PA Modbus Input
-# - Instantaneous Values (INST)
-# - Energy Counters
-# - Power, Apparent Power, Reactive Power
-# - Automatic kW / kVA / kVAr / kWh Umrechnung
 ##################################################
 
 [global_tags]
@@ -22,7 +18,7 @@
   name_override = "meter_inst"
   slave_id = 1
   timeout = "5s"
-  controller = "tcp://172.20.1.42:502"
+  controller = "tcp://${METER_IP}:502"
   configuration_type = "request"
 
   [[inputs.modbus.request]]
@@ -30,11 +26,11 @@
     byte_order = "ABCD"
     register = "holding"
     fields = [
-      # Active energy import (Wh)
+      # Energy (Wh)
       { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
       { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
       { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
-      { address = 19060, name = "energy_active_import_total",   type = "FLOAT32" },
+      { address = 19060, name = "energy_active_import_total", type = "FLOAT32" },
 
       # Voltage L-N
       { address = 19000, name = "voltage_phase_1", type = "FLOAT32" },
@@ -52,19 +48,19 @@
       { address = 19016, name = "current_phase_3", type = "FLOAT32" },
       { address = 19018, name = "current_total", type = "FLOAT32" },
 
-      # Active Power (W -> kW)
+      # Active Power (W)
       { address = 19020, name = "active_power_phase_1", type = "FLOAT32" },
       { address = 19022, name = "active_power_phase_2", type = "FLOAT32" },
       { address = 19024, name = "active_power_phase_3", type = "FLOAT32" },
       { address = 19026, name = "active_power_total", type = "FLOAT32" },
 
-      # Apparent Power (VA -> kVA)
+      # Apparent Power (VA)
       { address = 19028, name = "apparent_power_phase_1", type = "FLOAT32" },
       { address = 19030, name = "apparent_power_phase_2", type = "FLOAT32" },
       { address = 19032, name = "apparent_power_phase_3", type = "FLOAT32" },
       { address = 19034, name = "apparent_power_total", type = "FLOAT32" },
 
-      # Reactive Power (var -> kVAr)
+      # Reactive Power (var)
       { address = 19036, name = "reactive_power_q1_phase_1", type = "FLOAT32" },
       { address = 19038, name = "reactive_power_q1_phase_2", type = "FLOAT32" },
       { address = 19040, name = "reactive_power_q1_phase_3", type = "FLOAT32" },
@@ -73,7 +69,7 @@
       # Powerfactor per Phase
       { address = 19044, name = "power_factor_phase_1", type = "FLOAT32" },
       { address = 19046, name = "power_factor_phase_2", type = "FLOAT32" },
-      { address = 19048, name = "power_factor_phase_3", type = "FLOAT32" },    
+      { address = 19048, name = "power_factor_phase_3", type = "FLOAT32" },
 
       # Frequency
       { address = 19050, name = "frequency", type = "FLOAT32" }
@@ -87,7 +83,7 @@
   name_override = "meter_counter"
   slave_id = 1
   timeout = "5s"
-  controller = "tcp://172.20.1.42:502"
+  controller = "tcp://${METER_IP}:502"
   configuration_type = "request"
 
   [[inputs.modbus.request]]
@@ -98,16 +94,61 @@
       { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
       { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
       { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
-      { address = 19060, name = "energy_active_import_total",   type = "FLOAT32" },
+      { address = 19060, name = "energy_active_import_total", type = "FLOAT32" }
     ]
 
 ##################################################
-# Processors: Umrechnungen und Powerfactor
+# 15-minute averages (AVG2)
 ##################################################
-# Gesamt-Powerfactor berechnen
+[[inputs.modbus]]
+  name = "janitza_umg96pa"
+  name_override = "meter_avg2"
+  slave_id = 1
+  timeout = "5s"
+  interval = "${POLL_INTERVAL_AVG2}"
+  controller = "tcp://${METER_IP}:502"
+  configuration_type = "request"
+
+  [[inputs.modbus.request]]
+    slave_id = 1
+    byte_order = "ABCD"
+    register = "holding"
+    fields = [
+      { address = 2000, name = "voltage_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2002, name = "voltage_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2004, name = "voltage_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2006, name = "voltage_line_12_15min_avg", type = "FLOAT32" },
+      { address = 2008, name = "voltage_line_23_15min_avg", type = "FLOAT32" },
+      { address = 2010, name = "voltage_line_31_15min_avg", type = "FLOAT32" },
+      { address = 2012, name = "current_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2014, name = "current_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2016, name = "current_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2020, name = "active_power_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2022, name = "active_power_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2024, name = "active_power_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2026, name = "active_power_total_15min_avg", type = "FLOAT32" },
+      { address = 2028, name = "reactive_power_q1_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2030, name = "reactive_power_q1_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2032, name = "reactive_power_q1_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2034, name = "reactive_power_q1_total_15min_avg", type = "FLOAT32" },
+      { address = 2036, name = "apparent_power_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2038, name = "apparent_power_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2040, name = "apparent_power_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2042, name = "apparent_power_total_15min_avg", type = "FLOAT32" },
+      { address = 2044, name = "power_factor_phase_1_15min_avg", type = "FLOAT32" },
+      { address = 2046, name = "power_factor_phase_2_15min_avg", type = "FLOAT32" },
+      { address = 2048, name = "power_factor_phase_3_15min_avg", type = "FLOAT32" },
+      { address = 2050, name = "power_factor_total_15min_avg", type = "FLOAT32" },
+      { address = 2226, name = "frequency_15min_avg", type = "FLOAT32" }
+    ]
+
+##################################################
+# Processors: Umrechnungen & Powerfactor
+##################################################
 [[processors.starlark]]
   source = '''
 def apply(metric):
+    # Gesamt-PF
     if "active_power_total" in metric.fields and "apparent_power_total" in metric.fields:
         S = metric.fields["apparent_power_total"]
         P = metric.fields["active_power_total"]
@@ -116,42 +157,14 @@ def apply(metric):
     return metric
 '''
 
-# Active Power W -> kW
+# Unit Conversions: W->kW, VA->kVA, var->kVAr, Wh->kWh
 [[processors.starlark]]
   source = '''
 def apply(metric):
-    for f in ["active_power_phase_1","active_power_phase_2","active_power_phase_3","active_power_total"]:
-        if f in metric.fields:
+    for f in metric.fields:
+        if "active_power" in f or "apparent_power" in f or "reactive_power" in f:
             metric.fields[f] /= 1000.0
-    return metric
-'''
-
-# Apparent Power VA -> kVA
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["apparent_power_phase_1","apparent_power_phase_2","apparent_power_phase_3","apparent_power_total"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
-    return metric
-'''
-
-# Reactive Power var -> kVAr
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["reactive_power_q1_phase_1","reactive_power_q1_phase_2","reactive_power_q1_phase_3","reactive_power_q1_total"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
-    return metric
-'''
-
-# Energy Wh -> kWh
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["energy_active_import_phase_1","energy_active_import_phase_2","energy_active_import_phase_3","energy_active_import_total"]:
-        if f in metric.fields:
+        if "energy_active_import" in f:
             metric.fields[f] /= 1000.0
     return metric
 '''
